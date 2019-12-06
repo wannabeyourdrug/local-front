@@ -1,0 +1,26 @@
+{
+  "name": "postal-service",
+  "version": "0.0.1",
+  "description": "Socket server for work with API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neuromantic-js/postal-service.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/neuromantic-js/postal-service/issues"
+  },
+  "homepage": "https://github.com/neuromantic-js/postal-service#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "request": "^2.88.0",
+    "socket.io": "^2.3.0",
+    "winston": "^3.2.1"
+  }
+}

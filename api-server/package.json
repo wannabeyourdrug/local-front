@@ -1,0 +1,28 @@
+{
+  "name": "dating-server",
+  "version": "0.0.1",
+  "description": "Server for dating service on ExpressJS",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neuromantic-js/dating-server.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/neuromantic-js/dating-server/issues"
+  },
+  "homepage": "https://github.com/neuromantic-js/dating-server#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.7.13",
+    "winston": "^3.2.1"
+  }
+}
