@@ -21,7 +21,6 @@ async function login(req, res) {
     const {
         username,
         action,
-        password,
         sbisToken
     } = req.body || {};
     
@@ -34,10 +33,9 @@ async function login(req, res) {
         try {
             switch (action) { 
                 case 'login':
-                    if (username && password) {
+                    if (username) {
                         const user = await User.findOne({
-                            username,
-                            password
+                            username
                         });
                         
                         if (user) {
@@ -53,16 +51,14 @@ async function login(req, res) {
                     }
                     break;
                 case 'register':
-                    if (username && password) {
+                    if (username) {
                         const user = await User.findOne({
-                            username,
-                            password
+                            username
                         });
     
                         if (!user) {
                             const newUser = new User({
-                                username,
-                                password
+                                username
                             });
                             await newUser.save();
                             const token = await createToken(newUser);
