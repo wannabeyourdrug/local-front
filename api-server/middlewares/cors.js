@@ -9,16 +9,12 @@
  * @exports
  */
 function cors(req, res, next) {
-    
-    // TODO: требуется дополнить хедеры, если это потребуется
     /* Прописываем стандартные заголовки */
     res.header('Access-Control-Allow-Origin', '*');
     /* Прописываем разрешенные заголовки */
-    // TODO: требуется определить, какие заголовки требутся (referrer, x-access-token, Origin, X-Requested-With, Content-Type, Accept, x-language) 
-    res.header('Access-Control-Allow-Headers', '');
+    res.header('Access-Control-Allow-Headers', 'referrer, x-access-token, Origin, X-Requested-With, Content-Type, Accept, x-language, Authorization');
     /* Прописываем разрешённые методы */
-    // TODO: пропишите, какие требуются методы (GET, POST, HEAD, PUT, DELETE, OPTIONS)
-    res.header('Access-Control-Allow-Methods', '');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, HEAD, PUT, DELETE, OPTIONS');
     
     /* Проверяем метод. Если метод - options, то возвращаем удачный ответ */
     if(req.method === 'OPTIONS') {

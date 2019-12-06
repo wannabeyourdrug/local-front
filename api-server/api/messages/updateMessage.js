@@ -45,7 +45,7 @@ async function updateMessage(req, res) {
             await message.save();
             answerBuilder(res, message, undefined, meta);
         } else {
-            defaultErrors(res, 'NOT_FOUD', meta);
+            defaultErrors(res, 'NOT_FOUND', meta);
         }
     } catch (error) {
         // Возвращаем ошибку при сбое
