@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const schema = new Schema({
     author: Types.String,
     text: Types.String,
-    name: Types.String,
+    chatId: Types.String,
     date: { type: Types.Date, default: Date.now }
 });
 

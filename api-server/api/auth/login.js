@@ -18,32 +18,60 @@ const User = require('../../models/User');
  */
 async function login(req, res) {
     // Получаем тело запроса
-    const body = req.body;
-
-    // TODO: требуется получить данные из тела запроса (имя пользователя, действие, которое требуется вполнить)
-    // НАПРИМЕР
-    // const username = (body.hasOwnProperty('username')) ? body.username : undefined;
-    // const action = (body.hasOwnProperty('action')) ? body.action : undefined;
+    const {
+        username,
+        action,
+        password,
+        sbisToken
+    } = req.body || {};
     
     // Получаем объект мета-данных
     const meta = buildMeta(req);
     
-    // TOOD: Проверяем наличие авторизационного токена СБИС. Пока он нам нужен только для упрощения
-    const sbisToken = (body.hasOwnProperty('sbisToken')) 
-                ? req.body.sbisToken 
-                : undefined;
-
-    // TODO: Записываем авторизационный токен СБИС в мета-объект (понадобится фронтенду)
-    // TODO: Провести проверку на наличие токена СБИС и если токена нет - выводить ошибку. Если токен
-    // присутствует в данных (был отправлен с фронта) - выполнить одно из действий
+    meta.sbisToken = sbisToken;
+    
     if (sbisToken) {
-        // TODO: Используем паттерн "стратегия". Требуется реализовать действие авторизации и регистрации.
-        // Второй вариант - если нейдствие не передано или переданно не корректное имя действия - требуется 
-        // вернуть ошибку.
         switch (action) { 
-            case '':
+            case 'login':
+                if (username && password) {
+                    const user = await User.findOne({
+                        username,
+                        password
+                    });
+                    
+                    if (user) {
+                        const token = createToken(user);
+    
+                        answerBuilder(res, token, undefined, meta);
+                    } else {
+                        defaultErrors(res, 'USER_NOT_FOUND', meta);
+                    }
+                } else {
+                    defaultErrors(res, 'NOT_AUTH_DATA', meta);
+                }
                 break;
-            case '':
+            case 'register':
+                if (username && password) {
+                    const user = await User.findOne({
+                        username,
+                        password
+                    });
+
+                    if (!user) {
+                        const newUser = new User({
+                            username,
+                            password
+                        });
+                        await newUser.save();
+                        const token = createToken(newUser);
+
+                        answerBuilder(res, token, undefined, meta);
+                    } else {
+                        defaultErrors(res, 'ALREADY_REGISTER', meta);
+                    }
+                } else {
+                    defaultErrors(res, 'NOT_REGISTER_DATA', meta);
+                }
                 break;
             default:
                 // Обрабатываем, что фронт дал действие, которое не существует.
