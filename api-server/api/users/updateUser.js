@@ -47,7 +47,7 @@ async function updateUser(req, res) {
                 findedUser.profile = profile;
                 findedUser.tags = tags;
                 findedUser.scores = scores;
-                findedUser.save();
+                await findedUser.save();
                 answerBuilder(res, findedUser, undefined, meta);
             } else {
                 defaultErrors(res, 'USER_NOT_FOUND', meta);
