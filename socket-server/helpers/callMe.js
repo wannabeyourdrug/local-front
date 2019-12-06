@@ -10,7 +10,7 @@
  */
 function callMe(socket, answer, logger) {
 	try {
-		socket.emit('eventClient', { data: answer });
+		socket.emit(answer.event, { data: answer });
 	} catch (e) {
 		logger.error(e);
 	}

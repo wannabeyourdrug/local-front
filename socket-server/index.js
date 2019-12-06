@@ -52,10 +52,10 @@ const logger = winston.createLogger({});
 // callMe - хелпер, который позволяет отвечат конкретному пользователю
 // =============================================================================================================
 // 
-const getTimeNow;
-const disconnectUser;
-const callAll;
-const callMe;
+const getTimeNow = require('./helpers/getTimeNow');
+const disconnectUser = require('./helpers/dicsonnectUser');
+const callAll = require('./helpers/callAll');
+const callMe = require('./helpers/callMe');
 
 // Навешиваем события на коннект
 ioServer.sockets.on('connection', (socket) => {
@@ -64,15 +64,23 @@ ioServer.sockets.on('connection', (socket) => {
 	// Получаем время установления соединения
 	let time = getTimeNow();
 	// Определяем переменную для ответа на различные события
-	let answer = { event: 'connected', id,  time };
+	let answer = {
+		event: 'connected',
+		id,
+		time
+	};
 	// Переменная, содержащая события
 	let event;
 	// Отправляем клиенту сообщение об удачном соединении с сокет-серверером
 	// TODO: тут можно сделать отправку любой полезной информации, вплоть до получения
-	// данных для профиля пользователя и т.п.
+	// данных для профиля пользователя и т.п. EXTRA
 	callMe(socket, answer, logger);
 	// Сообщаем всем пользователям, что подключился новый клиент
-	answer = { event: 'userJoined', id, time };
+	answer = {
+		event: 'userJoined',
+		id,
+		time
+	};
 
 	// Подписываемся на события открытого сокета
 	// Подписываемся на событие отправки/получения сообщения
@@ -81,33 +89,79 @@ ioServer.sockets.on('connection', (socket) => {
 	// 1. Корректное поведение. 
 	// Если поведение было корретным (т.к. отыграл пункт 1) - нужно понять какого типа действие на сервери вызывалось.
 	// И исходя от этого действия
+
 	socket.on('message', (obj) => {
 		// Получаем текущее время
 		time = getTimeNow();
 		// Выделаем из объекта запроса собственно запрос на сервер и тип запроса (для отправки sent, для получения get)
 		// и делаем запрос на сервер API
-		const { req, type } = obj;
+		const {
+			req,
+			type
+		} = obj;
 		// Выполняем запрос на API сервер
 		request(req, (error, response, body) => {
 			// Если ошибка - отвечаем ошибкой
 			if (error) {
-				// TODO: код обработки ошибк
+				event = 'Error';
+				const message = 'Server error';
+				answer = {
+					event,
+					id,
+					time,
+					message,
+					error,
+					body,
+					response
+				};
+				callMe(socket, answer, logger);
 			} else {
-				// Если не было ошибки, в зависимости от типа формируем ответ
-				// и отвечаем пользователю или всем пользователям
-				// Первый тип "Отправка сообщения" - мы отправили коректно сообщение (что надо сообщить отправителю) и остальным пользователям.
-				// Второй тип - мы получаем сообщения с сервера. В этом случае сообщаем о получении клиенту.
-				// Если ти не задач - то требуется вывести ошибку (используйте данный код как типовой для реализации пердыдущих двух типов)
 				switch (type) {
+					case 'sent':
+						event = 'sent';
+						const message = 'Sent Message';
+						answer = {
+							event,
+							id,
+							time,
+							message,
+							error,
+							body,
+							response
+						};
+						callAll(socket, answer, logger);
+						break;
+					case 'get':
+						event = 'get';
+						const message = 'Got Messages';
+						answer = {
+							event,
+							id,
+							time,
+							message,
+							error,
+							body,
+							response
+						};
+						callMe(socket, answer, logger);
+						break;
 					default:
 						event = 'Error';
 						const message = 'Not correct type';
-						answer = { event, id, time, message };
+						answer = {
+							event,
+							id,
+							time,
+							message,
+							error,
+							body,
+							response
+						};
 						callMe(socket, answer, logger);
 						break;
 				}
 			}
-		}); 
+		});
 	});
 	// Подписываемся на событие запроса с API-сервера
 	// ИДЕЯ: нам нужно API для socket-соединения, которое будет просто "проксировать" реальное API, превращая любое API в real time.
@@ -116,13 +170,40 @@ ioServer.sockets.on('connection', (socket) => {
 		// Выполняем запрос
 		request(req, (error, response, body) => {
 			// TODO: Код обоработки запроса
+			if (error) {
+				event = 'Error';
+				const message = 'Server error';
+				answer = {
+					event,
+					id,
+					time,
+					message,
+					error,
+					body,
+					response
+				};
+				callMe(socket, answer, logger);
+			} else {
+				event = 'Error';
+				const message = 'Server error';
+				answer = {
+					event,
+					id,
+					time,
+					message,
+					error
+				};
+				callMe(socket, answer, logger);
+			}
 		});
 	});
 
 	// Подписываемся на событие оповещения (т.е. наш сервер что-то сообщает в клиенту/ам)
 	socket.on('alerts', (req) => {
 		// Получаем из данных объекта - куда планируется отправить сообщение
-		const { target } = req;
+		const {
+			target
+		} = req;
 		// Получаем сообщение, которое требуется отправить
 		let message = (req.hasOwnProperty('message')) ? req.message : '';
 		// Задаём переменную функции
@@ -137,7 +218,12 @@ ioServer.sockets.on('connection', (socket) => {
 			default:
 				event = 'error';
 				message = `Not correct target: ${target}`;
-				answer = { event, id, time, message };
+				answer = {
+					event,
+					id,
+					time,
+					message
+				};
 				fn = callMe;
 				break;
 		}

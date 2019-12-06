@@ -15,7 +15,7 @@ function callAll(socket, answer, logger) {
 	// Ответ как это сделать можно найти в этой документации: https://socket.io/docs/#Server-3
 	// или на этом обсуждении https://stackoverflow.com/questions/10058226/send-response-to-all-clients-except-sender 
 
-	socket.broadcast.emit('eventAll', {data: answer, time: getTimeNow()});
+	socket.broadcast.emit(answer.event, {data: answer, time: getTimeNow()});
 }
 
 module.exports = callAll;
