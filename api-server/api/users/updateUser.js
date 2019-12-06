@@ -29,7 +29,7 @@ async function updateUser(req, res) {
         profile,
         tags,
         scores
-    } = req.params || {};
+    } = req.body || {};
 
     const token = getToken(req);
 
