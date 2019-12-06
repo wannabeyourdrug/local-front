@@ -184,14 +184,15 @@ ioServer.sockets.on('connection', (socket) => {
 				};
 				callMe(socket, answer, logger);
 			} else {
-				event = 'Error';
-				const message = 'Server error';
+				event = 'getApi';
+				const message = 'Got Result';
 				answer = {
 					event,
 					id,
 					time,
 					message,
-					error
+					body,
+					response
 				};
 				callMe(socket, answer, logger);
 			}
@@ -215,6 +216,30 @@ ioServer.sockets.on('connection', (socket) => {
 		// проксирования фронтом.
 		// TODO: требуется прописать реакции на разный target по описанной выше схеме.
 		switch (target) {
+			case "me":
+				event = 'me';
+				message = `Message for one person: (${target})`;
+				answer = {
+					event,
+					id,
+					time,
+					message,
+					target
+				};
+				fn = callMe;
+				break;
+			case "all":
+				event = 'all';
+				message = `Message for all: (${target})`;
+				answer = {
+					event,
+					id,
+					time,
+					message,
+					target
+				};
+				fn = callAll;
+				break;
 			default:
 				event = 'error';
 				message = `Not correct target: ${target}`;
