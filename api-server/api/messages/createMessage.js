@@ -21,23 +21,28 @@ async function createMessage(req, res) {
     const meta = buildMeta(req);
     // Получаем тоекн из запроса
     const token = getToken(req);
-    // TODO: Получаем текст из тела запроса данные для создания нового сообщения
-    // Сообщение обязательно должо быть связано с чатом
-    //
+
     // ПРИМЕР:
-    // const text = (req.hasOwnProperty('body') && req.body.hasOwnProperty('text'))
-    //    ? req.body.text
-    //    : '';
+     const text = (req.hasOwnProperty('body') && req.body.hasOwnProperty('text'))
+        ? req.body.text
+        : '';
     // Получаем индефикатор чата из тела запроса
-    // const chatId = (req.hasOwnProperty('body') && req.body.hasOwnProperty('chatId'))
-    //    ? req.body.chatId
-    //    : undefined;
+     const name = (req.hasOwnProperty('body') && req.body.hasOwnProperty('name'))
+        ? req.body.name
+        : undefined;
+
     
-    // TODO: реализуем создание сообщения. Одним из параметров сообщения должен быть
-    // автор. Следовательно надо декодировать токен.
+    meta.token = token;
+
     try {
         // Декодируем токен пользователя
         const user = await decodeToken(token);
+        const { _id } = user;
+        const author = _id;
+        const message = { author, text, name };
+        const newMessage = new Message(message);
+        await newMessage.save();
+        answerBuilder(res, newMessage, undefined, meta);
     } catch (error) {
         // ВОзвращаем ответ с ошибкой
         answerBuilder(res, undefined, error, meta, 502);
