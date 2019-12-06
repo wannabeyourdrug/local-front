@@ -18,25 +18,19 @@ const User = require('../../models/User');
  * @exports 
  */
 async function updateUser(req, res) {
-    
     // Собираем стандартный объект мета-данных
     const meta = buildMeta(req);
-    // Получаем индефикатор пользователя из адресной строки (через params)
-    const id = (req.hasOwnProperty('params') && req.params.hasOwnProperty('id')) 
-        ? req.params.id
-        : undefined;
-    // Получаем данные из тела запроса (те, которые были в модели)
-    // ДЛЯ ПРИМЕРА:
-    // const profile = (req.hasOwnProperty('body') && req.body.hasOwnProperty('profile'))
-    //    ? req.body.profile
-    //    : undefined;
-    // const tags = (req.hasOwnProperty('body') && req.body.hasOwnProperty('tags'))
-    //    ? req.body.tags
-    //    : undefined;
-    // const scores = (req.hasOwnProperty('body') && req.body.hasOwnProperty('scores'))
-    //    ? req.body.scores
-    //    : undefined;
-    // Получаем токен из запроса
+
+    const {
+        id
+    } = req.params || {};
+
+    const {
+        profile,
+        tags,
+        scores
+    } = req.params || {};
+
     const token = getToken(req);
 
     try {
@@ -44,14 +38,23 @@ async function updateUser(req, res) {
         // и ИД пользователя, переданный в строке
         const user = await decodeToken(token);
         
-        // Собираем фильтр для поиска. Сраниваем параметр строки и id в токене
-        const filter;
+        if (user._id === id) {
+            let findedUser = await User.findOne({
+                _id: id
+            });
 
-        // Ищем пользтвателя
-        const findedUser;
-
-        // TODO: Если пользователь найден - обновляем его данные и возвращаем ответ.
-        // TODO: Если пользователь не найден - возвращаем стандартную ошибку
+            if (findedUser) {
+                findedUser.profile = profile;
+                findedUser.tags = tags;
+                findedUser.scores = scores;
+                findedUser.save();
+                answerBuilder(res, findedUser, undefined, meta);
+            } else {
+                defaultErrors(res, 'USER_NOT_FOUND', meta);
+            }
+        } else {
+            defaultErrors(res, 'ACCESS_DENIED', meta);
+        }
     } catch (error) {
         answerBuilder(res, undefined, error, meta, 502);
     }

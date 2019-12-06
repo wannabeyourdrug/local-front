@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken');
  * @exports 
  */
 async function createToken(data) {
-    return await jwt.sign({ ...data }, process.env.SALT);
+    return await jwt.sign({ ...data.toJSON() }, process.env.SALT);
 }
 
 module.exports = createToken;

@@ -19,62 +19,47 @@ const bodyParser = require('body-parser');
 const winston = require('winston');
 const mongoose = require('mongoose');
 
-/** 
- * TODO: прогрузим middleware-функциидля контроля доступа и CORS
- * ПРИМЕР:
- * const accessControl = require('./middlewares/accessControl');
- */
-const accessControl;
-const cors;
+const accessControl = require('./middlewares/accessControl');
+const cors = require('./middlewares/cors');
 
 /** Создаем экземпляр веб-сервера */
 const app = express();
 /** Получаем из глобальных настроек окружения порт */
 const port = parseInt(process.env.PORT);
 
-/** 
- * TODO: Аналогично, подключаем роутинг
- */
-const router;
+const router = require('./api/routers');
 
-/**
- * 
- * TODO: требуется сделать транспорты для записи в файлы.
- * ПРИМЕР КОНФИГА
- * ============================================================================================================
- * level: 'info',
- * format: winston.format.json(),
- * defaultMeta: {
- *     service: 'server_name'
- * },
- * transports: [
- *      new winston.transports.File({ filename: 'error.log', level: 'error' }), - пишется определённый уровень
- *      new winston.transports.File({ filename: 'combined.log' }) - пишутся все уровни (если уровнеь не указан)
- * ]
- * ============================================================================================================
- * 
- */
-const logger = winston.createLogger({});
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  defaultMeta: {
+    service: 'api-service'
+  },
+  transports: [
+    new winston.transports.File({
+      filename: 'error.log',
+      level: 'error'
+    }),
+    new winston.transports.File({
+      filename: 'combined.log'
+    })
+  ]
+});
 
-// 
-// TODO: задайте уровень логирования в консоле (доп.транспорт) в случае, если сервис работает не врежиме
-// production (см. документацию выше)
-//
+if (process.env.NODE_ENV !== 'production') {
+  logger.add(new winston.transports.Console({
+    format: winston.format.simple()
+  }));
+}
 
-/** 
- * TODO: подключаемся к БД с помощью переменной из proccess.env вместо строки
- * НАПРИМЕР: process.env.MONGO_URL.
- * Вторым параметром тербуется передать конфигуркцию для актуальной версии mongoose (в теории можно без неё):
- * {
- *    useNewUrlParser: true,
- *    useUnifiedTopology: true
- * }
- */
-mongoose.connect('mongodb://localhost:27017/blackout');
+mongoose.connect(process.env.MONGO_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
 /** Подписываемся на событие ошибок соединения */
 mongoose.connection.on('error', (error) => {
-  // TODO: кидаем ошибку в логер
+  logger.error(error);
 });
 
 /**
@@ -82,11 +67,8 @@ mongoose.connection.on('error', (error) => {
  */
 app.use(bodyParser.json());
 
-/** 
- * TODO: подключить middleware-функции (cors, accessControl). 
- * ПРИМЕР:
- * app.use(cors);
- */
+app.use(accessControl);
+app.use(cors);
 
 /** 
  * Подключаем роутер
@@ -95,5 +77,5 @@ app.use('/api', router);
 
 /** Слушаем сервер и порт */
 app.listen(port, () => {
-  // TODO: выводил лог с сообщением, что сервер запущен на порту и его слушают
+  logger.info('Listening on ' + port);
 });

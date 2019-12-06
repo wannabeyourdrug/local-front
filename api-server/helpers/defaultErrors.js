@@ -20,11 +20,15 @@ function defaultErrors(res, code, meta) {
             message = 'Введены не все обязательные поля для регистрации';
             status = 502;
             break;
+        case 'NOT_AUTH_DATA':
+            message = 'Введены не все обязательные поля для авторизации';
+            status = 502;
+            break;
         case 'NOT_AUTH':
             message = 'Вы не атворизованы';
             status = 502;
             break;
-        case 'USER_NOT_FOND':
+        case 'USER_NOT_FOUND':
             message = 'Такой пользователь не найден';
             status = 404;
             break;
@@ -40,13 +44,17 @@ function defaultErrors(res, code, meta) {
             message = 'Передан не верный токен';
             status = 502;
             break;
-        case 'LOL_CHTO':
+        case 'ACCESS_DENIED':
             message = 'У вас не хватает прав для этой операции';
             status = 502;
             break;
         case 'NOT_FOUND':
             message = 'Объект не найден';
             status = 404;
+            break;
+        case 'BAD_DATA':
+            message = 'Неправильные данные запроса';
+            status = 400;
             break;
         default:
             message = 'Неизвестная ошибка';
