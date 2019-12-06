@@ -32,7 +32,7 @@ async function getUserList(req, res) {
         // Добавляем общее количество в мета-данные
         meta.total = count; 
         // Возвращаем ответ
-        answerBuilder(res, , undefined, meta);
+        answerBuilder(res, users, undefined, meta);
     } catch (error) {
         // Возвращаем ответ с ошибкой
         answerBuilder(res, undefined, error, meta, 502);
