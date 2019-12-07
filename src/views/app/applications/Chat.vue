@@ -1,5 +1,6 @@
 <template>
 <div>
+    <div v-if="isSeen">
     <b-row class="app-row">
         <b-colxx xxs="12" class="chat-app">
             <conversation-detail key="conversation" :current-user="currentUser" :other-user="otherUser" :messages="conversationMessages" />
@@ -13,6 +14,7 @@
                 <i class="simple-icon-arrow-right" />
             </b-button>
         </div>
+    </div>
     </div>
     <application-menu>
         <b-tabs no-fade class="pl-0 pr-0 h-100" content-class="chat-app-tab-content" nav-class="card-header-tabs ml-0 mr-0" v-model="tabIndex">
@@ -67,7 +69,8 @@ export default {
                     img: '../../../assets/img/cheesecake-thumb.jpg'
                 }
             },
-            conversationMessages: []
+            conversationMessages: [],
+            isSeen : false
         }
     },
     computed: {
@@ -80,6 +83,7 @@ export default {
             this.conversationMessages = messages
         },
         selectContact(userId) {
+            this.isSeen = true;
             this.otherUser = this.contacts.find(x => x._id === userId)
             const conversation = this.conversations.find(x => x.users.includes(userId) && x.users.includes(this.currentUser._id))
             if (conversation) {
