@@ -83,7 +83,7 @@ export default {
       axios.post(apiUrl + '/users', bodyRecord)
         .then((response) => {
           let users = response.data;
-          localStorage.removeItem('searchUsers');
+          localStorage.setItem('searchUsers');
           commit('setSearchUsers', JSON.stringify(res.data.data[0]))
         })
     },
