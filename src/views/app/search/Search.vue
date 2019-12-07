@@ -219,10 +219,10 @@
             };
         },
         methods: {
-            ...mapActions(['saveQuestionary']),
+            ...mapActions(['searchUsers']),
             formSubmit() {
-                this.saveQuestionary({
-                    currentUser: this.currentUser
+                this.searchUsers({
+                    search: this.search,
                 });
             }
         },
