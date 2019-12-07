@@ -45,6 +45,7 @@ import ConversationDetail from '../../../components/ChatApp/ConversationDetail'
 import sendLetter from '../../../utils/chatUtils'
 import io from 'socket.io-client'
 
+import api from '../../../utils/API';
 
 export default {
     components: {
@@ -73,18 +74,12 @@ export default {
             this.otherUser = otherUser
             this.conversationMessages = messages
         },
-        selectContact(userId) {
+        async selectContact(userId) {
             this.isSeen = true;
             this.otherUser = this.contacts.find(x => x._id === userId)
-            // const conversation = this.conversations.find(x => x.users.includes(userId) && x.users.includes(this.currentUser._id))
-            // if (conversation) {
-            //     console.log('change selected conversation')
-            //     this.conversationMessages = conversation.messages
-            // } else {
-            //     console.log('create new conversation')
-            //     const date = new Date()
-            //     this.conversationMessages = []
-            // }
+            this.conversationMessages = await api('GET', 'messages/' + userId);
+            console.log(this.conversationMessages);
+            
             this.tabIndex = 0
             this.message = ''
             this.searchKey = ''

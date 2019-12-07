@@ -1,7 +1,6 @@
-import socket from './io';
-
-// TODO: get token from store
-const token = '';
+import {
+    apiUrl
+} from '../constants/config'
 
 /**
  * @function
@@ -14,21 +13,19 @@ const token = '';
  * @async
  */
 export default async function api(method, model, data = {}) {
-    return new Promise((resolve, reject) => {
-        let req = {
-            uri: 'http://127.0.0.1:80/api/' + model,
-            method,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': token
-            }
-        };
-        if (['POST', 'PUT'].includes(method)) {
-            req.body = JSON.stringify(data);
+    let url = apiUrl + '/' + model;
+    let req = {
+        method,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem('token')
         }
-    
-        socket.emit('api', req, (res) => {
-            resolve(res);
-        });
-    });
+    };
+    if (['POST', 'PUT'].includes(method)) {
+        req.body = JSON.stringify(data);
+    }
+
+    let response = await fetch(url, req);
+    let result = await response.json();
+    return result.data;
 }
