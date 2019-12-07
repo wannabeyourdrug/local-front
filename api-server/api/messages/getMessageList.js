@@ -27,15 +27,16 @@ async function getMessageList(req, res) {
 
     try {
         const user = await decodeToken(token);
-        // Получаем список сообщений из БД
-        const messages = await Message.find({
+        const filter = {
             chatId: {
                 $in: [id, user._id]
             },
             author: {
                 $in: [id, user._id]
             }
-        });
+        };
+        // Получаем список сообщений из БД
+        const messages = await Message.find(filter);
         // Получаем общее количество сообщений по фильтру в БД
         const count = await Message.count(filter).exec();
         // Добавляем количество к мета-данным
