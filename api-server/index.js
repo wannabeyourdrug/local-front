@@ -67,7 +67,7 @@ mongoose.connection.on('error', (error) => {
  */
 app.use(bodyParser.json());
 
-app.use(accessControl);
+app.use('/api', accessControl);
 app.use(cors);
 
 /** 
