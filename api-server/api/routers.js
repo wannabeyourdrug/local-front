@@ -23,7 +23,7 @@ router.delete('/tags', removeTag);
 const getMessageList = require('./messages/getMessageList');
 const createMessage = require('./messages/createMessage');
 const updateMessage = require('./messages/updateMessage');
-router.get('/messages', getMessageList);
+router.get('/messages/:id', getMessageList);
 router.post('/messages', createMessage);
 router.put('/messages/:id', updateMessage);
 

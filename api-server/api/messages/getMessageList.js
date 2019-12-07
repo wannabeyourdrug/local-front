@@ -4,6 +4,8 @@
 const buildMeta = require('../../helpers/buildMeta');
 const answerBuilder = require('../../helpers/answerBuilder');
 const Message = require('../../models/Message');
+const getToken = require('../../helpers/getToken');
+const decodeToken = require('../../helpers/decodeToken');
 
 /**
  * @function
@@ -17,15 +19,24 @@ const Message = require('../../models/Message');
 async function getMessageList(req, res) {
     // Собираем стандартный объект мета-данных
     const meta = buildMeta(req);
-    // Получаем данные о пагинации
-    const limit = (req.query.limit) ? Number(req.query.limit) : 15;
-    const skip = (req.query.skip) ? Number(req.query.skip) : 0;
-    const filter = (req.query.filter) ? JSON.parse(req.query.filter) : {};
-    const sort = (req.query.sort) ? JSON.parse(req.query.sort) : {};
-    // Получаем сообщения и их количество
+    const token = getToken(req);
+
+    const {
+        id
+    } = req.params || {};
+
     try {
+        const user = await decodeToken(token);
+        const filter = {
+            chatId: {
+                $in: [id, user._id]
+            },
+            author: {
+                $in: [id, user._id]
+            }
+        };
         // Получаем список сообщений из БД
-        const messages = await Message.find(filter).sort(sort).limit(limit).skip(skip).exec();
+        const messages = await Message.find(filter);
         // Получаем общее количество сообщений по фильтру в БД
         const count = await Message.count(filter).exec();
         // Добавляем количество к мета-данным
@@ -34,6 +45,7 @@ async function getMessageList(req, res) {
         answerBuilder(res, messages, undefined, meta);
     } catch (error) {
         // Возвращаем ответ с ошибкой
+        console.log(error);
         answerBuilder(res, undefined, error, meta, 502);
     }
 }
