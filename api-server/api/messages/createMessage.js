@@ -38,6 +38,7 @@ async function createMessage(req, res) {
                 chatId,
                 author: user._id
             });
+            await message.save();
             answerBuilder(res, message, undefined, meta);
         }
         else {
