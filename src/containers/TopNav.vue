@@ -7,7 +7,12 @@
         <a href="#" class="menu-button-mobile d-xs-block d-sm-block d-md-none" @click.prevent="changeSideMenuForMobile(menuType)">
             <mobile-menu-icon />
         </a>
+        <logo />
     </div>
+
+    <!-- <div class = "navbar-left">
+        
+    </div> -->
 
     <div class="navbar-right">
         <div class="d-none d-md-inline-block align-middle mr-3">
@@ -50,6 +55,8 @@
 </template>
 
 <script>
+import Logo from '../components/Logo.vue'
+
 import Switches from "vue-switches";
 import notifications from "../data/notifications";
 
@@ -76,7 +83,8 @@ export default {
     components: {
         "menu-icon": MenuIcon,
         "mobile-menu-icon": MobileMenuIcon,
-        switches: Switches
+        switches: Switches,
+        Logo
     },
     data() {
         return {
