@@ -21,7 +21,7 @@ async function getMessageList(req, res) {
     const token = getToken(req);
 
     const {
-        userId
+        id
     } = req.params || {};
 
     try {
@@ -29,10 +29,10 @@ async function getMessageList(req, res) {
         // Получаем список сообщений из БД
         const messages = await Message.find({
             chatId: {
-                $in: [userId, user._id]
+                $in: [id, user._id]
             },
             author: {
-                $in: [userId, user._id]
+                $in: [id, user._id]
             }
         });
         // Получаем общее количество сообщений по фильтру в БД
@@ -43,6 +43,7 @@ async function getMessageList(req, res) {
         answerBuilder(res, messages, undefined, meta);
     } catch (error) {
         // Возвращаем ответ с ошибкой
+        console.log(error);
         answerBuilder(res, undefined, error, meta, 502);
     }
 }
