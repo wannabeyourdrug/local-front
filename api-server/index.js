@@ -76,6 +76,11 @@ app.use(cors);
 app.use('/api', router);
 
 app.use('/', express.static(__dirname + '/../static'));
+
+app.use('*', (req, res) => {
+  res.redirect('/#' + req.originalUrl);
+});
+
 /** Слушаем сервер и порт */
 app.listen(port, () => {
   logger.info('Listening on ' + port);
