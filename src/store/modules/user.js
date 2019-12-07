@@ -80,11 +80,14 @@ export default {
         token: JSON.parse(localStorage.getItem('token')),
         tags: payload.search,
       };
-      axios.post(apiUrl + '/users', bodyRecord)
+      axios.post(apiUrl + '/users', bodyRecord, { headers: { Authorization: JSON.parse(localStorage.getItem('token'))}})
         .then((response) => {
           let users = response.data;
           localStorage.setItem('searchUsers');
-          commit('setSearchUsers', JSON.stringify(res.data.data[0]))
+          commit('setSearchUsers', JSON.stringify(response.data.data[0]))
+        })
+        .catch((e)=> {
+          console.log(e);
         })
     },
     
