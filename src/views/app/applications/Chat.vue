@@ -2,8 +2,8 @@
 <div>
     <b-row class="app-row">
         <b-colxx xxs="12" class="chat-app">
-            <conversation-detail v-if="isLoadContacts && isLoadConversations && otherUser!=null" key="conversation" :current-user="currentUser" :other-user="otherUser" :messages="conversationMessages" />
-            <div v-else class="loading" key="conversationLoading"></div>
+            <conversation-detail key="conversation" :current-user="currentUser" :other-user="otherUser" :messages="conversationMessages" />
+            
         </b-colxx>
     </b-row>
     <div class="chat-input-container d-flex justify-content-between align-items-center">
@@ -101,16 +101,19 @@ export default {
             const date = new Date()
             let message = {
                 text: this.message,
-                chatId: "ddd"
+                chatId: "dd"
             }
             if (!this.conversationMessages) {
                 this.conversationMessages = [];
             }
             
-            this.conversationMessages.push(message)
+            if(message.text){
+                 this.conversationMessages.push(message)
             sendLetter(message, this.socket)
 
             this.message = ''
+            }
+             
             //console.log(message)
 
         }
@@ -122,7 +125,7 @@ export default {
         });
         console.log("created");
         this.socket.on('sent', (answer) => {
-            console.log("answered");
+            console.log(answer);
         })
     },
     mounted() {
