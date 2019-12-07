@@ -1,0 +1,48 @@
+{
+  "general": {
+    "copyright": "Piaf Vue © Todos los derechos reservados."
+  },
+  "user": {
+    "login-title": "Iniciar sesión",
+    "register": "Registro",
+    "forgot-password": "Se te olvidó tu contraseña",
+    "email": "E-mail",
+    "password": "Contraseña",
+    "forgot-password-question": "¿Contraseña olvidada?",
+    "fullname": "Nombre completo",
+    "login-button": "INICIAR SESIÓN",
+    "register-button": "REGISTRO",
+    "reset-password-button": "REINICIAR",
+    "buy": "COMPRAR",
+    "username": "Nombre de Usuario"
+  },
+  "menu": {
+    "app": "Inicio",
+    "piaf": "Piaf",
+    "dashboards": "Tableros",
+    "second-menu": "Segundo Menú",
+    "second": "Segundo",
+    "start": "Comienzo",
+    "single": "Sólo",
+    "pages": "Páginas",
+    "charts": "Gráficos",
+    "search": "Búsqueda",
+    "login": "Iniciar sesión",
+    "register": "Registro",
+    "forgot-password": "Olvidé mi contraseña",
+    "reset-password": "Reiniciar contraseña",
+    "error": "Error",
+    "applications": "Aplicaciones",
+    "todo": "Notas",
+    "survey": "Encuesta",
+    "chat": "Chatea",
+    "ui": "IU",
+    "docs":"Docs"
+  },
+  "pages": {
+    "magic-is-in-the-details": "MAGIC IS IN THE DETAILS",
+    "error-title": "Ooops... looks like an error occurred!",
+    "error-code": "Error Code",
+    "go-back-home": "GO BACK HOME"
+  }
+}

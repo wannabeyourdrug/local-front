@@ -1,0 +1,86 @@
+{
+  "general": {
+    "copyright": "Piaf Vue © 2018 All Rights Reserved."
+  },
+  "user": {
+    "login-title": "Login",
+    "register": "Register",
+    "forgot-password": "Forgot Password",
+    "email": "E-mail",
+    "password": "Password",
+    "forgot-password-question": "Forget password?",
+    "fullname": "Full Name",
+    "login-button": "LOGIN",
+    "register-button": "REGISTER",
+    "reset-password-button": "RESET",
+    "buy": "BUY",
+    "username": "Username"
+  },
+  "menu": {
+    "app": "Home",
+    "piaf": "Piaf",
+    "profile": "Профиль",
+    "shop": "Магазин",
+    "questionary": "Анкета",
+    "dashboards": "Магазин",
+    "second-menu": "Second Menu",
+    "second": "Second",
+    "start": "Start",
+    "single": "Single",
+    "pages": "Pages",
+    "charts": "Charts",
+    "search": "Search",
+    "login": "Login",
+    "register": "Register",
+    "forgot-password": "Forgot Password",
+    "reset-password": "Reset Password",
+    "error": "Error",
+    "applications": "Applications",
+    "todo": "To-do List",
+    "library": "Library",
+    "survey": "Survey",
+    "chat": "Сообщения",
+    "ui": "UI",
+    "docs":"Docs",
+    "contact": "В социальных сетях",
+    "social": "Профиль"
+  },
+  "chat": {
+    "messages": "Сообщения",
+    "contacts": "Контакты",
+    "saysomething": "Напиши что-нибудь.."
+  },
+  "forms": {
+    "name": "Имя",
+    "age": "Возраст",
+    "sex": "Пол",
+    "city": "Город",
+    "maritalStatus": "Семейное положение",
+    "children": "Наличие детей",
+    "RhythmOfLife": "Твой ритм жизни",
+    "hobbies": "Твои увлечения",
+    "perfectTripForYou": "Идеальное путешествие для тебя - это...",
+    "eatingHabits": "Твои предпочтения в еде",
+    "attitudeToAlcohol": "Твое отношение к алкоголю",
+    "favoriteMusic": "Любимый стиль в музыке",
+    "haveAnyPets": "Есть ли у тебя домашние питомцы",
+    "valuesLife": "Какие у тебя ценности в жизни",
+    "attractYouMore": "Какие качества в людях тебя привлекают сильнее",
+    "pushYouStronger": "Какие качества в людях тебя отталкивают сильнее",
+    "mostCriticalAnotherPerson": "Что для тебя критичнее всего в поведении другого человека",
+    "qualitiesMostPronounced": "Отметь в спискенаиболее ярко выраженные в тебе качества",
+    "save": "Сохранить"
+  },
+  "anket": {
+    "title": "Анкета пользователя",
+    "title-edit": "Редактирование анкеты"
+  },
+  "pages": {
+    "magic-is-in-the-details": "MAGIC IS IN THE DETAILS",
+    "error-title": "Упс... Ошибка...",
+    "error-code": "Error Code",
+    "location": "Город",
+    "responsibilities": "основные теги",
+    "go-back-home": "Вернуться на главную"
+  }
+}
