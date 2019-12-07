@@ -1,4 +1,4 @@
-import io from './io';
+import socket from './io';
 
 // TODO: get token from store
 const token = '';
@@ -27,7 +27,7 @@ export default async function api(method, model, data) {
             req.body = JSON.stringify(data);
         }
     
-        io.emit('api', req, (res) => {
+        socket.emit('api', req, (res) => {
             resolve(res);
         });
     });
