@@ -39,7 +39,7 @@
           }"
         >
           <div class="position-absolute pt-1 pr-2 r-0">
-            <span class="text-extra-small text-muted">{{ message.time }}</span>
+            <span class="text-extra-small text-muted">{{ new Date(message.date).toLocaleString() }}</span>
           </div>
           <b-card-body>
             <div
@@ -48,7 +48,7 @@
             >
               <img
                 :alt="currentUser.profile.anket.name"
-                :src="currentUser.profile.img"
+                :src="currentUser.profile.picture"
                 class="img-thumbnail border-0 rounded-circle mr-3 list-thumbnail align-self-center xsmall"
               />
               <div class="d-flex flex-grow-1 min-width-zero">
@@ -82,7 +82,7 @@
               </div>
             </div>
             <div class="chat-text-left">
-              <p class="mb-0 text-semi-muted">{{ message.text }}</p>
+              <p class="mb-0 text-semi-muted container">{{ message.text }}</p>
             </div>
           </b-card-body>
         </b-card>

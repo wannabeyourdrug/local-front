@@ -108,11 +108,12 @@ export default {
             }
             
             if(message.text){
-                 this.conversationMessages.push(message)
-            sendLetter(message, this.socket)
+                sendLetter(message, this.socket)
+                message.author = this.currentUser._id
+                message.date = new Date().toString();
+                this.conversationMessages.push(message)
 
-            this.message = ''
-
+                this.message = ''
             }
 
             //console.log(message)
