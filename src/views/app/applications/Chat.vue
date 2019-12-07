@@ -100,9 +100,8 @@ export default {
             console.log('add message to conversation')
             const date = new Date()
             let message = {
-                author: this.currentUser.id,
                 text: this.message,
-                time: date.getHours() + ':' + date.getMinutes()
+                chatId: "ddd"
             }
             if (!this.conversationMessages) {
                 this.conversationMessages = [];
