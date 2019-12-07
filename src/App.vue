@@ -6,11 +6,14 @@
 
 <script>
 import ColorSwitcher from "./components/Common/ColorSwitcher";
+
+
 import {
     getDirection
 } from "./utils";
 
 export default {
+    
     components: {
         "color-switcher": ColorSwitcher
     },

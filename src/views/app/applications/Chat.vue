@@ -46,6 +46,10 @@ import ApplicationMenu from '../../../components/Common/ApplicationMenu'
 import ContactList from '../../../components/ChatApp/ContactList'
 import ConversationList from '../../../components/ChatApp/ConversationList'
 import ConversationDetail from '../../../components/ChatApp/ConversationDetail'
+import sendLetter from '../../../utils/chatUtils'
+import io from 'socket.io-client'
+
+const socket = io('http://45.80.68.81:3000');
 
 export default {
     components: {
@@ -96,13 +100,27 @@ export default {
         sendMessage() {
             console.log('add message to conversation')
             const date = new Date()
-            this.conversationMessages.push({
-                sender: this.currentUser.id,
+            let message = {
+                author: this.currentUser.id,
                 text: this.message,
                 time: date.getHours() + ':' + date.getMinutes()
-            })
+            }
+            if (!this.conversationMessages) {
+                this.conversationMessages = [];
+            }
+
+            this.conversationMessages.push(message)
+            sendLetter(message)
             this.message = ''
+            //console.log(message)
+
         }
+    },
+    created(){
+        socket.on('connect', () => {
+            console.log("Socket");
+        });
+        console.log("created")
     },
     mounted() {
         this.getContacts({
@@ -111,6 +129,10 @@ export default {
         })
         this.getConversations(this.currentUser.id)
         document.body.classList.add("no-footer");
+        console.log("123")
+        socket.on('sent', (answer) => {
+            console.log(answer)
+        })
     },
     beforeDestroy() {
         document.body.classList.remove("no-footer");
