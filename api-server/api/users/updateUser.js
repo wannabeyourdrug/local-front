@@ -64,15 +64,12 @@ async function updateUser(req, res) {
 						}
 					}
 				}
-				}
-
-
-
-
-
+			
                 findedUser.scores = scores;
                 await findedUser.save();
                 answerBuilder(res, findedUser, undefined, meta);
+
+                          
             } else {
                 defaultErrors(res, 'USER_NOT_FOUND', meta);
             }
