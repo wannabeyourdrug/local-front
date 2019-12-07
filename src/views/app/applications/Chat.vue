@@ -77,8 +77,8 @@ export default {
             this.conversationMessages = messages
         },
         selectContact(userId) {
-            this.otherUser = this.contacts.find(x => x.id === userId)
-            const conversation = this.conversations.find(x => x.users.includes(userId) && x.users.includes(this.currentUser.id))
+            this.otherUser = this.contacts.find(x => x._id === userId)
+            const conversation = this.conversations.find(x => x.users.includes(userId) && x.users.includes(this.currentUser._id))
             if (conversation) {
                 console.log('change selected conversation')
                 this.conversationMessages = conversation.messages
@@ -86,7 +86,7 @@ export default {
                 console.log('create new conversation')
                 const date = new Date()
                 this.conversations.splice(0, 0, {
-                    users: [userId, this.currentUser.id],
+                    users: [userId, this.currentUser._id],
                     messages: [],
                     lastMessageTime: date.getHours() + ':' + date.getMinutes()
                 })
@@ -112,8 +112,9 @@ export default {
             sendLetter(message, this.socket)
 
             this.message = ''
+
             }
-             
+
             //console.log(message)
 
         }
@@ -151,7 +152,7 @@ export default {
     watch: {
         searchKey(val, oldVal) {
             this.searchContacts({
-                userId: this.currentUser.id,
+                userId: this.currentUser._id,
                 searchKey: val
             })
         }
