@@ -53,11 +53,19 @@ const routes = [
               import(/* webpackChunkName: "questionary" */ "./views/app/profile/Questionary")
           }
         ]
-      },
+      }
+    ]
+  },
+  {
+    path: '/app',
+    component: () => import(/* webpackChunkName: "chat" */ './views/app/applications'),
+    redirect: "/app/chat",
+    beforeEnter: AuthRequired,
+    children: [
       {
-        path: 'app/applications/chat',
-        component: () => import(/* webpackChunkName: "chat" */ './views/app/applications/Chat'),
-        redirect: '/app/applications/chat',
+        path: "chat",
+        component: () =>
+          import(/* webpackChunkName: "profile" */ "./views/app/applications/Chat")
       }
     ]
   },
