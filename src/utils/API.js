@@ -1,4 +1,4 @@
-import io from './io' ;
+import io from './io';
 
 // TODO: get token from store
 const token = '';
@@ -14,17 +14,21 @@ const token = '';
  * @async
  */
 export default async function api(method, model, data) {
-    let req = {
-        url: '/api/' + model,
-        method,
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': token
+    return new Promise((resolve, reject) => {
+        let req = {
+            url: '/api/' + model,
+            method,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            }
+        };
+        if (['POST', 'PUT'].includes(method)) {
+            req.body = JSON.stringify(data);
         }
-    };
-    if (['POST', 'PUT'].includes(method)) {
-        req.body = JSON.stringify(data);
-    }
-
-    io.
+    
+        io.emit('api', req, (res) => {
+            resolve(res);
+        });
+    });
 }
