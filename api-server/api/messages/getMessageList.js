@@ -17,15 +17,23 @@ const Message = require('../../models/Message');
 async function getMessageList(req, res) {
     // Собираем стандартный объект мета-данных
     const meta = buildMeta(req);
-    // Получаем данные о пагинации
-    const limit = (req.query.limit) ? Number(req.query.limit) : 15;
-    const skip = (req.query.skip) ? Number(req.query.skip) : 0;
-    const filter = (req.query.filter) ? JSON.parse(req.query.filter) : {};
-    const sort = (req.query.sort) ? JSON.parse(req.query.sort) : {};
-    // Получаем сообщения и их количество
+    const token = getToken(req);
+
+    const {
+        userId
+    } = req.params || {};
+
     try {
+        const user = await decodeToken(token);
         // Получаем список сообщений из БД
-        const messages = await Message.find(filter).sort(sort).limit(limit).skip(skip).exec();
+        const messages = await Message.find({
+            chatId: {
+                $in: [userId, user._id]
+            },
+            author: {
+                $in: [userId, user._id]
+            }
+        });
         // Получаем общее количество сообщений по фильтру в БД
         const count = await Message.count(filter).exec();
         // Добавляем количество к мета-данным
