@@ -8,7 +8,7 @@ const schema = new Schema({
         unique: true
     },
     profile:{},
-    tags:[String],
+    tags:[Types.String],
     scores:{}
 });
 
