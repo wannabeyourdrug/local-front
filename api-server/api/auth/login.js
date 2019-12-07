@@ -57,7 +57,10 @@ async function login(req, res) {
                         });
                         if (!user) {
                             const newUser = new User({
-                                username
+                                username,
+                                tags: [],
+                                profile: {},
+                                scores: {}
                             });
                             await newUser.save();
                             const token = await createToken(newUser);
