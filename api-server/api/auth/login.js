@@ -23,6 +23,7 @@ async function login(req, res) {
         action,
         sbisToken
     } = req.body || {};
+
     
     // Получаем объект мета-данных
     const meta = buildMeta(req);
@@ -37,11 +38,10 @@ async function login(req, res) {
                         const user = await User.findOne({
                             username
                         });
-                        
+             
                         if (user) {
                             const token = await createToken(user);
                             meta.token = token;
-        
                             answerBuilder(res, user, undefined, meta);
                         } else {
                             defaultErrors(res, 'USER_NOT_FOUND', meta);
@@ -55,7 +55,6 @@ async function login(req, res) {
                         const user = await User.findOne({
                             username
                         });
-    
                         if (!user) {
                             const newUser = new User({
                                 username
@@ -63,7 +62,6 @@ async function login(req, res) {
                             await newUser.save();
                             const token = await createToken(newUser);
                             meta.token = token;
-    
                             answerBuilder(res, newUser, undefined, meta);
                         } else {
                             defaultErrors(res, 'ALREADY_REGISTER', meta);
