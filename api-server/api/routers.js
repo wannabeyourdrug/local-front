@@ -36,7 +36,9 @@ router.put('/chats/:id', updateChat);
 
 const getUserList = require('./users/getUserList');
 const updateUser = require('./users/updateUser');
+const searchUser = require('./users/searchUser');
 router.get('/users', getUserList);
+router.post('/users', searchUser);
 router.put('/users/:id', updateUser);
 
 const login = require('./auth/login');
