@@ -73,7 +73,6 @@ ioServer.sockets.on('connection', (socket) => {
 			req,
 			type
 		} = JSON.parse(obj);
-		console.log(obj);
 		// Выполняем запрос на API сервер
 		try {
 			request(req, (error, response, body) => {
