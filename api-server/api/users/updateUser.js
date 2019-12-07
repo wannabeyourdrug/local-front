@@ -54,8 +54,10 @@ async function updateUser(req, res) {
 					let values = [];
 					if (count > 0) {
 						fields.forEach(field => {
-						values.push(anket[field]); 
-						});
+                            if (anket[field] !== '') {
+                                values.push(anket[field]);
+                            }
+                        });
 						if (findedUser.tags && findedUser.tags.length > 0 && values.length > 0) {
 							findedUser.tags.concat(values);
 						}
