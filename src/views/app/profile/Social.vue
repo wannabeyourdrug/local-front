@@ -142,7 +142,6 @@
                                 </b-form-group>
                             </b-colxx>
                             </b-row>
-                            <!-- <b-button pill ref="header20" variant="outline-secondary" id ="change" class="mt-4" @click ="changeA">Изменить</b-button> -->
                             <b-button :disabled ="!isEditMode" pill variant="primary" class="mt-4" @click ="changeA">Изменить</b-button>
                             <b-button :disabled ="isEditMode"  variant="primary" class="mt-4" @click ="save">{{ $t('forms.save') }}</b-button>
                         </b-form>
@@ -208,6 +207,7 @@ export default {
 
         changeA(){
             this.isEditMode = !this.isEditMode;
+            window.scrollTo(0, 500)
         }
     },
         

@@ -40,8 +40,7 @@
                         <img :alt="currentUser.profile.anket.name" :src="currentUser.profile.picture" />
                     </span>
                 </template>
-                <b-dropdown-item>Профиль</b-dropdown-item>
-                <b-dropdown-item>Контакты</b-dropdown-item>
+                <b-dropdown-item @click="goToProfile">Профиль</b-dropdown-item>
                 <b-dropdown-divider />
                 <b-dropdown-item @click="logout">Выйти</b-dropdown-item>
             </b-dropdown>
@@ -132,6 +131,10 @@ export default {
             this.signOut().then(() => {
                 this.$router.push("/user/login");
             });
+        },
+
+        goToProfile(){
+            this.$router.push("/app/profile/social");
         },
 
         toggleFullScreen() {

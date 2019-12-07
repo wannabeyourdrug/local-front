@@ -39,14 +39,14 @@
     "todo": "To-do List",
     "library": "Library",
     "survey": "Survey",
-    "chat": "Сообщения",
+    "chat": "Чаты",
     "ui": "UI",
     "docs":"Docs",
     "contact": "В социальных сетях",
     "social": "Профиль"
   },
   "chat": {
-    "messages": "Сообщения",
+    "messages": "Чаты",
     "contacts": "Контакты",
     "saysomething": "Напиши что-нибудь.."
   },
@@ -68,7 +68,7 @@
     "attractYouMore": "Какие качества в людях тебя привлекают сильнее",
     "pushYouStronger": "Какие качества в людях тебя отталкивают сильнее",
     "mostCriticalAnotherPerson": "Что для тебя критичнее всего в поведении другого человека",
-    "qualitiesMostPronounced": "Отметь в спискенаиболее ярко выраженные в тебе качества",
+    "qualitiesMostPronounced": "Отметь в списке наиболее ярко выраженные в тебе качества",
     "save": "Сохранить"
   },
   "anket": {
