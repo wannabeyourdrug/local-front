@@ -64,7 +64,7 @@ export default {
                     anket: {
                         name: "Светлана"
                     },
-                    img: '../../../assets/img/cheesecake-thumb.jpg'
+                    picture: '../../../assets/img/cheesecake-thumb.jpg'
                 }
             },
             conversationMessages: []
