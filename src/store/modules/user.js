@@ -72,7 +72,7 @@ export default {
           const user = res.data.data[0];
           if (!user.profile) user.profile = {};
           if (!user.scores) user.scores = {};
-          localStorage.setItem('user', JSON.stringify())
+          localStorage.setItem('user', JSON.stringify(user))
           commit('setUser', JSON.stringify(res.data.data[0]))
         })
     },
