@@ -75,6 +75,7 @@ app.use(cors);
  */
 app.use('/api', router);
 
+app.use('/', express.static(__dirname + '/../static'));
 /** Слушаем сервер и порт */
 app.listen(port, () => {
   logger.info('Listening on ' + port);
