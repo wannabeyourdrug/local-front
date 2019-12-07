@@ -82,6 +82,7 @@ export default {
         token: JSON.parse(localStorage.getItem('token')),
         tags: ["3333", "33434"]
       };
+      console.log(bodyRecord);
       axios.post(apiUrl + '/users', bodyRecord, { headers: { Authorization: JSON.parse(localStorage.getItem('token'))}})
         .then((response) => {
           let users = response.data;
