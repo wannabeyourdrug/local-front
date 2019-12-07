@@ -45,7 +45,28 @@ async function updateUser(req, res) {
 
             if (findedUser) {
                 findedUser.profile = profile;
-                findedUser.tags = tags;
+				const anket = (profile.hasOwnProperty('anket') && typeof profile.anket === 'object') 
+				? profile.anket
+				: undefined;
+				if (anket) {
+					const fields = Object.keys(anket);
+					const count = fields.length;
+					let values = [];
+					if (count > 0) {
+						fields.forEach(field => {
+						values.push(anket[field]); 
+						});
+						if (findedUser.tags && findedUser.tags.length > 0 && values.length > 0) {
+							findedUser.tags.concat(values);
+						}
+						if (!findedUser.tags || findedUser.tags.length === 0) {
+							findedUser.tags = values;
+						}
+					}
+				}
+
+				findedUser.tags = tags;
+				}
                 findedUser.scores = scores;
                 await findedUser.save();
                 answerBuilder(res, findedUser, undefined, meta);
