@@ -17,7 +17,7 @@ function cors(req, res, next) {
     res.header('Access-Control-Allow-Methods', 'GET, POST, HEAD, PUT, DELETE, OPTIONS');
     
     /* Проверяем метод. Если метод - options, то возвращаем удачный ответ */
-    if(req.method === 'OPTIONS') {
+    if(req.method === 'OPTIONS' || req.method === 'options') {
         res.status(200).json({});
     } else {
         next();

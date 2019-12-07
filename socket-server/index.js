@@ -98,11 +98,11 @@ ioServer.sockets.on('connection', (socket) => {
 							answer = {
 								event,
 								id,
+								response,
 								time,
 								message,
 								error,
-								body,
-								response
+								body
 							};
 							callAll(socket, answer, logger);
 							break;
@@ -112,11 +112,11 @@ ioServer.sockets.on('connection', (socket) => {
 							answer = {
 								event,
 								id,
+								response,
 								time,
 								message,
 								error,
-								body,
-								response
+								body
 							};
 							callMe(socket, answer, logger);
 							break;
