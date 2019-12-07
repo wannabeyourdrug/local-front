@@ -20,8 +20,7 @@ const winston = require('winston');
 const mongoose = require('mongoose');
 
 const accessControl = require('./middlewares/accessControl');
-// const cors = require('./middlewares/cors');
-const cors = require('cors')();
+const cors = require('./middlewares/cors');
 
 /** Создаем экземпляр веб-сервера */
 const app = express();
