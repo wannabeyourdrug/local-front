@@ -23,6 +23,8 @@ async function searchUser(req, res) {
     } = req.body || {};
 
     const token = getToken(req);
+    
+    console.log("Got in");
 
     try {
         const user = await decodeToken(token);
@@ -35,7 +37,7 @@ async function searchUser(req, res) {
                 $all: tags
             }
         });
-
+        console.log("Got in 2");
         if (users) {
             answerBuilder(res, users, undefined, meta);
         } else {
