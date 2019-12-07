@@ -1,6 +1,5 @@
 <template>
 <div>
-    <div v-if="isSeen">
     <b-row class="app-row">
         <b-colxx xxs="12" class="chat-app">
             <conversation-detail key="conversation" :current-user="currentUser" :other-user="otherUser" :messages="conversationMessages" />
@@ -15,14 +14,11 @@
             </b-button>
         </div>
     </div>
-    </div>
     <application-menu>
         <b-tabs no-fade class="pl-0 pr-0 h-100" content-class="chat-app-tab-content" nav-class="card-header-tabs ml-0 mr-0" v-model="tabIndex">
             <b-tab :title="$t('chat.messages')" title-item-class="w-100 text-center" no-body class="chat-app-tab-pane">
                 <div class="pt-4 spaced-content pb-0 mt-2">
-                    <div class="form-group">
-                        <b-input type="text" class="rounded" :placeholder="$t('menu.search')" v-model="searchKey" />
-                    </div>
+                    
                 </div>
                 <contact-list v-if="isLoadContacts" key="contactList" :data="contactsSearchResult" @select-contact="selectContact" />
                 <div v-else class="loading" key="contactListLoading"></div>
@@ -60,16 +56,24 @@ export default {
             message: '',
             searchKey: '',
             isLoadCurrentConversation: false,
-            otherUser: null,
-            conversationMessages: [],
-            isSeen : false
+            otherUser: {
+                // TODO: сделать загрузку
+                _id: "5debc4c58a9b8a6eb575b982",
+                profile: {
+                    anket: {
+                        name: "Светлана"
+                    },
+                    picture: '../../../assets/img/cheesecake-thumb.jpg'
+                }
+            },
+            conversationMessages: []
         }
     },
     computed: {
-        ...mapGetters(['currentUser', 'isLoadContacts', 'isLoadConversations', 'error', 'contacts', 'contactsSearchResult'])
+        ...mapGetters(['currentUser', 'isLoadContacts', 'isLoadConversations', 'error', 'contacts', 'contactsSearchResult', 'conversations'])
     },
     methods: {
-        ...mapActions(['getContacts', 'searchContacts']),
+        ...mapActions(['getContacts', 'searchContacts', 'getConversations']),
         selectConversation(otherUser, messages) {
             this.otherUser = otherUser
             this.conversationMessages = messages
@@ -85,10 +89,11 @@ export default {
             this.searchKey = ''
         },
         sendMessage() {
+            console.log('add message to conversation')
             const date = new Date()
             let message = {
                 text: this.message,
-                chatId: this.otherUser._id
+                chatId: "dd"
             }
             
             if(message.text){
@@ -99,10 +104,17 @@ export default {
 
                 this.message = ''
             }
+
+            //console.log(message)
+
         }
     },
     created(){
         this.socket = io('http://45.80.68.81:3000');
+        this.socket.on('connect', () => {
+            console.log("Connected");
+        });
+        console.log("created");
         this.socket.on('sent', (answer) => {
             let messageLetter = JSON.parse(answer.data.body).data[0];
             this.conversationMessages.push(messageLetter);
@@ -111,9 +123,11 @@ export default {
     mounted() {
         
         this.getContacts({
-            userId: this.currentUser._id
+            userId: this.currentUser._id,
+            searchKey: ''
         })
         
+        this.getConversations(this.currentUser._id)
         document.body.classList.add("no-footer");
     },
     beforeDestroy() {
