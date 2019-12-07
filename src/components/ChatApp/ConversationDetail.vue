@@ -4,7 +4,7 @@
       <div class="d-flex">
         <img
           :alt="otherUser.profile.anket.name"
-          :src="otherUser.profile.img"
+          :src="otherUser.profile.picture"
           class="img-thumbnail border-0 rounded-circle ml-0 mr-4 list-thumbnail align-self-center small"
         />
       </div>
@@ -66,7 +66,7 @@
             <div class="d-flex flex-row pb-1" v-else>
               <img
                 :alt="otherUser.profile.anket.name"
-                :src="otherUser.profile.img"
+                :src="otherUser.profile.picture"
                 class="img-thumbnail border-0 rounded-circle mr-3 list-thumbnail align-self-center xsmall"
               />
               <div class="d-flex flex-grow-1 min-width-zero">
