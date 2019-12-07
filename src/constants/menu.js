@@ -7,13 +7,13 @@ const data = [{
 },
 {
   id: "pages",
-  icon: "iconsminds-digital-drawing",
+  icon: "iconsminds-file-clipboard-file---text",
   label: "menu.questionary",
-  to: "/app/profile/questionary"
+  to: "/app/chat"
 },
 {
   id: "search",
-  icon: "",
+  icon: "iconsminds-magnifi-glass",
   label: "menu.search",
   to: "/app/search"
 }
