@@ -98,7 +98,6 @@ ioServer.sockets.on('connection', (socket) => {
 							answer = {
 								event,
 								id,
-								response,
 								time,
 								message,
 								error,
@@ -112,7 +111,6 @@ ioServer.sockets.on('connection', (socket) => {
 							answer = {
 								event,
 								id,
-								response,
 								time,
 								message,
 								error,
