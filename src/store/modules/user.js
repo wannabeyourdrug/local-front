@@ -78,7 +78,7 @@ export default {
     searchUsers({ commit }, payload) {
       const bodyRecord = {
         token: JSON.parse(localStorage.getItem('token')),
-        tags: payload.search,
+        tags: ["3333", "33434"]
       };
       axios.post(apiUrl + '/users', bodyRecord, { headers: { Authorization: JSON.parse(localStorage.getItem('token'))}})
         .then((response) => {
