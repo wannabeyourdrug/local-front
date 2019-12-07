@@ -1,3 +1,5 @@
+const getTimeNow = require('./getTimeNow');
+
 /**
  * @function
  * @name desconnectUser
@@ -7,10 +9,9 @@
  * @return {undefined}
  * @exports 
  */
+
 function disconnectUser(ioServer, id) {
-	// TODO: допишите хелпер, который сообщает всем пользователям, что пользователь 
-	// отключился от сервера
-	// Ссылка с примером: https://socket.io/docs/#Server-3
+	ioServer.emit('disconnected', { id, time: getTimeNow()});
 }
 
 module.exports = disconnectUser;

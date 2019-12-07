@@ -21,7 +21,6 @@ async function login(req, res) {
     const {
         username,
         action,
-        password,
         sbisToken
     } = req.body || {};
     
@@ -31,52 +30,55 @@ async function login(req, res) {
     meta.sbisToken = sbisToken;
     
     if (sbisToken) {
-        switch (action) { 
-            case 'login':
-                if (username && password) {
-                    const user = await User.findOne({
-                        username,
-                        password
-                    });
-                    
-                    if (user) {
-                        const token = createToken(user);
-    
-                        answerBuilder(res, token, undefined, meta);
-                    } else {
-                        defaultErrors(res, 'USER_NOT_FOUND', meta);
-                    }
-                } else {
-                    defaultErrors(res, 'NOT_AUTH_DATA', meta);
-                }
-                break;
-            case 'register':
-                if (username && password) {
-                    const user = await User.findOne({
-                        username,
-                        password
-                    });
-
-                    if (!user) {
-                        const newUser = new User({
-                            username,
-                            password
+        try {
+            switch (action) { 
+                case 'login':
+                    if (username) {
+                        const user = await User.findOne({
+                            username
                         });
-                        await newUser.save();
-                        const token = createToken(newUser);
-
-                        answerBuilder(res, token, undefined, meta);
+                        
+                        if (user) {
+                            const token = await createToken(user);
+                            meta.token = token;
+        
+                            answerBuilder(res, user, undefined, meta);
+                        } else {
+                            defaultErrors(res, 'USER_NOT_FOUND', meta);
+                        }
                     } else {
-                        defaultErrors(res, 'ALREADY_REGISTER', meta);
+                        defaultErrors(res, 'NOT_AUTH_DATA', meta);
                     }
-                } else {
-                    defaultErrors(res, 'NOT_REGISTER_DATA', meta);
-                }
-                break;
-            default:
-                // Обрабатываем, что фронт дал действие, которое не существует.
-                defaultErrors(res, undefined, meta);
-                break;
+                    break;
+                case 'register':
+                    if (username) {
+                        const user = await User.findOne({
+                            username
+                        });
+    
+                        if (!user) {
+                            const newUser = new User({
+                                username
+                            });
+                            await newUser.save();
+                            const token = await createToken(newUser);
+                            meta.token = token;
+    
+                            answerBuilder(res, newUser, undefined, meta);
+                        } else {
+                            defaultErrors(res, 'ALREADY_REGISTER', meta);
+                        }
+                    } else {
+                        defaultErrors(res, 'NOT_REGISTER_DATA', meta);
+                    }
+                    break;
+                default:
+                    // Обрабатываем, что фронт дал действие, которое не существует.
+                    defaultErrors(res, undefined, meta);
+                    break;
+            }
+        } catch (error) {
+            answerBuilder(res, undefined, error, meta);
         }
     } else {
         // Если не был передан токен СБИС - просто выкидываем ошибку

@@ -1,3 +1,4 @@
+const getTimeNow = require('./getTimeNow');
 /**
  * @function
  * @name callAll
@@ -13,6 +14,8 @@ function callAll(socket, answer, logger) {
 	// пользователям, подключенным к socket-серверу
 	// Ответ как это сделать можно найти в этой документации: https://socket.io/docs/#Server-3
 	// или на этом обсуждении https://stackoverflow.com/questions/10058226/send-response-to-all-clients-except-sender 
+
+	socket.broadcast.emit(answer.event, {data: answer, time: getTimeNow()});
 }
 
 module.exports = callAll;

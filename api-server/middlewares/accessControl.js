@@ -17,7 +17,7 @@ async function accessControl(req, res, next) {
     const token = getToken(req);
     // Задаём белый спискок маршрутов (роутов), которые не учавствуют в проверке (по
     // умолчанию задат только health)
-    const whiteList = ['health'];
+    const whiteList = ['health', 'login'];
     // Получаем url апроса
     const url = req.originalUrl;
 
