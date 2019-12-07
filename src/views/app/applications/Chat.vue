@@ -64,7 +64,7 @@ export default {
             searchKey: '',
             isLoadCurrentConversation: false,
             otherUser: null,
-            conversationMessages: null
+            conversationMessages: []
         }
     },
     computed: {
@@ -103,9 +103,6 @@ export default {
                 text: this.message,
                 chatId: "dd"
             }
-            if (!this.conversationMessages) {
-                this.conversationMessages = [];
-            }
             
             if(message.text){
                  this.conversationMessages.push(message)
@@ -125,20 +122,18 @@ export default {
         });
         console.log("created");
         this.socket.on('sent', (answer) => {
-            console.log(answer);
+            let messageLetter = JSON.parse(answer.data.body).data[0];
+            this.conversationMessages.push(messageLetter);
         })
     },
     mounted() {
-        console.log(this.currentUser);
         
         this.getContacts({
             userId: this.currentUser._id,
             searchKey: ''
         })
         
-        console.log(1);
         this.getConversations(this.currentUser._id)
-        console.log(2);
         document.body.classList.add("no-footer");
     },
     beforeDestroy() {
