@@ -69,7 +69,10 @@ export default {
         .then(res => {
           const item = res.data.meta.token
           localStorage.setItem('token', JSON.stringify(item))
-          localStorage.setItem('user', JSON.stringify(res.data.data[0]))
+          const user = res.data.data[0];
+          if (!user.profile) user.profile = {};
+          if (!user.scores) user.scores = {};
+          localStorage.setItem('user', JSON.stringify())
           commit('setUser', JSON.stringify(res.data.data[0]))
         })
     },
