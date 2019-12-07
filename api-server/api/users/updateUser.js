@@ -64,9 +64,12 @@ async function updateUser(req, res) {
 						}
 					}
 				}
-
-				findedUser.tags = tags;
 				}
+
+
+
+
+
                 findedUser.scores = scores;
                 await findedUser.save();
                 answerBuilder(res, findedUser, undefined, meta);

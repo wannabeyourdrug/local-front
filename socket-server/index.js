@@ -4,81 +4,42 @@
 // Документация: https://www.npmjs.com/package/dotenv
 require('dotenv').config();
 
-// FIXME: требуется задать port сервера воспользуйтесь переменной, заданной в этом файле.
-const port = 3000;
+const port = parseInt(process.env.PORT);
 // Получаем экземпляр socket-сервера
 const ioServer = require('socket.io').listen(port);
 
-// Получаем экземпляр объекта для запросов
-// TODO: прочитайте документацию по библиотеке работы с запросами (https://www.npmjs.com/package/request)
 const request = require('request');
 
-// Получаем экземпляр логера
-// TODO: прочитайте документацию по логеру winston (https://www.npmjs.com/package/winston)
 const winston = require('winston');
 
-// 
-// TODO: требуется сделать транспорты для записи в файлы.
-// ПРИМЕР КОНФИГА
-// ============================================================================================================
-// level: 'info',
-// format: winston.format.json(),
-// defaultMeta: {
-//     service: 'server_name'
-// },
-// transports: [
-//      new winston.transports.File({ filename: 'error.log', level: 'error' }), - пишется определённый уровень
-//      new winston.transports.File({ filename: 'combined.log' }) - пишутся все уровни (если уровнеь не указан)
-// ]
-// ============================================================================================================
-// 
 const logger = winston.createLogger({
 	level: 'info',
 	format: winston.format.json(),
 	defaultMeta: {
-	  service: 'api-service'
+		service: 'api-service'
 	},
 	transports: [
-	  new winston.transports.File({
-	    filename: 'error.log',
-	    level: 'error'
-	  }),
-	  new winston.transports.File({
-	    filename: 'combined.log'
-	  })
+		new winston.transports.File({
+			filename: 'error.log',
+			level: 'error'
+		}),
+		new winston.transports.File({
+			filename: 'combined.log'
+		})
 	]
-   });
-   
-   if (process.env.NODE_ENV !== 'production') {
+});
+
+if (process.env.NODE_ENV !== 'production') {
 	logger.add(new winston.transports.Console({
-	  format: winston.format.simple()
+		format: winston.format.simple()
 	}));
-   }
-   
+}
 
-
-// 
-// TODO: задайте уровень логирования в консоле (доп.транспорт) в случае, если сервис работает не врежиме
-// production (см. документацию выше)
-// 
-
-//
-// TODO: подключем хелперы, которые помогут не дублировать код отправки сообщения или получения времени.
-// Пример подключения файла
-// const getTimeNow = require('./helpers/getTimeNow');
-// 
-// ОПИСАНИЕ ХЕЛПЕРОВ
-// =============================================================================================================
-// getTimeNow - хелпер для получения текущего значения времени
-// disconnectUser - хелпер, который отвечает при дисконекте
-// callAll - хелпер, который позволяет отвечать всем пользователям сразу
-// callMe - хелпер, который позволяет отвечат конкретному пользователю
-// =============================================================================================================
-// 
 const getTimeNow = require('./helpers/getTimeNow');
 const disconnectUser = require('./helpers/dicsonnectUser');
 const callAll = require('./helpers/callAll');
 const callMe = require('./helpers/callMe');
+
 
 // Навешиваем события на коннект
 ioServer.sockets.on('connection', (socket) => {
@@ -94,9 +55,6 @@ ioServer.sockets.on('connection', (socket) => {
 	};
 	// Переменная, содержащая события
 	let event;
-	// Отправляем клиенту сообщение об удачном соединении с сокет-серверером
-	// TODO: тут можно сделать отправку любой полезной информации, вплоть до получения
-	// данных для профиля пользователя и т.п. EXTRA
 	callMe(socket, answer, logger);
 	// Сообщаем всем пользователям, что подключился новый клиент
 	answer = {
@@ -105,15 +63,8 @@ ioServer.sockets.on('connection', (socket) => {
 		time
 	};
 
-	// Подписываемся на события открытого сокета
-	// Подписываемся на событие отправки/получения сообщения
-	// TODO: требуется реализовать callback-функцию, которая сделает запросна сервер и обработает 2 основные ситуации
-	// 0. Ошибку запроса (не предвиденный ответ сервера)
-	// 1. Корректное поведение. 
-	// Если поведение было корретным (т.к. отыграл пункт 1) - нужно понять какого типа действие на сервери вызывалось.
-	// И исходя от этого действия
-
 	socket.on('message', (obj) => {
+		let message = ' ';
 		// Получаем текущее время
 		time = getTimeNow();
 		// Выделаем из объекта запроса собственно запрос на сервер и тип запроса (для отправки sent, для получения get)
@@ -121,81 +72,86 @@ ioServer.sockets.on('connection', (socket) => {
 		const {
 			req,
 			type
-		} = obj;
+		} = JSON.parse(obj);
+		console.log(obj);
 		// Выполняем запрос на API сервер
-		request(req, (error, response, body) => {
-			// Если ошибка - отвечаем ошибкой
-			if (error) {
-				event = 'Error';
-				const message = 'Server error';
-				answer = {
-					event,
-					id,
-					time,
-					message,
-					error,
-					body,
-					response
-				};
-				callMe(socket, answer, logger);
-			} else {
-				switch (type) {
-					case 'sent':
-						event = 'sent';
-						const message = 'Sent Message';
-						answer = {
-							event,
-							id,
-							time,
-							message,
-							error,
-							body,
-							response
-						};
-						callAll(socket, answer, logger);
-						break;
-					case 'get':
-						event = 'get';
-						const message = 'Got Messages';
-						answer = {
-							event,
-							id,
-							time,
-							message,
-							error,
-							body,
-							response
-						};
-						callMe(socket, answer, logger);
-						break;
-					default:
-						event = 'Error';
-						const message = 'Not correct type';
-						answer = {
-							event,
-							id,
-							time,
-							message,
-							error,
-							body,
-							response
-						};
-						callMe(socket, answer, logger);
-						break;
+		try {
+			request(req, (error, response, body) => {
+				// Если ошибка - отвечаем ошибкой
+				if (error) {
+					event = 'Error';
+					message = 'Server error';
+					answer = {
+						event,
+						id,
+						time,
+						message,
+						error,
+						body,
+						response
+					};
+					callMe(socket, answer, logger);
+				} else {
+					switch (type) {
+						case 'sent':
+							event = 'sent';
+							message = 'Sent Message';
+							answer = {
+								event,
+								id,
+								time,
+								message,
+								error,
+								body,
+								response
+							};
+							callAll(socket, answer, logger);
+							break;
+						case 'get':
+							event = 'get';
+							message = 'Got Messages';
+							answer = {
+								event,
+								id,
+								time,
+								message,
+								error,
+								body,
+								response
+							};
+							callMe(socket, answer, logger);
+							break;
+						default:
+							event = 'Error';
+							message = 'Not correct type';
+							answer = {
+								event,
+								id,
+								time,
+								message,
+								error,
+								body,
+								response
+							};
+							callMe(socket, answer, logger);
+							break;
+					}
 				}
-			}
-		});
+			});
+		} catch (e) {
+			console.log(e);
+		}
 	});
+
 	// Подписываемся на событие запроса с API-сервера
 	// ИДЕЯ: нам нужно API для socket-соединения, которое будет просто "проксировать" реальное API, превращая любое API в real time.
-	// TODO: требуется сделать запрос и сообщить результат клиенту
 	socket.on('api', (req) => {
+		let message = ' ';
 		// Выполняем запрос
-		request(req, (error, response, body) => {
-			// TODO: Код обоработки запроса
+		request(JSON.parse(req), (error, response, body) => {
 			if (error) {
 				event = 'Error';
-				const message = 'Server error';
+				message = 'Server error';
 				answer = {
 					event,
 					id,
@@ -208,7 +164,7 @@ ioServer.sockets.on('connection', (socket) => {
 				callMe(socket, answer, logger);
 			} else {
 				event = 'getApi';
-				const message = 'Got Result';
+				message = 'Got Result';
 				answer = {
 					event,
 					id,
@@ -227,7 +183,7 @@ ioServer.sockets.on('connection', (socket) => {
 		// Получаем из данных объекта - куда планируется отправить сообщение
 		const {
 			target
-		} = req;
+		} = JSON.parse(req);
 		// Получаем сообщение, которое требуется отправить
 		let message = (req.hasOwnProperty('message')) ? req.message : '';
 		// Задаём переменную функции
@@ -237,7 +193,6 @@ ioServer.sockets.on('connection', (socket) => {
 		// В зависимости от назначения (me - только для одного пользователя, all - для нескольких пользователей)
 		// отправляем оповещение. Предполагается для первой версии реализовать оповещения работы  с API на уровне
 		// проксирования фронтом.
-		// TODO: требуется прописать реакции на разный target по описанной выше схеме.
 		switch (target) {
 			case "me":
 				event = 'me';
