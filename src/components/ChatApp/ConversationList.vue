@@ -40,8 +40,8 @@ export default {
       this.$emit('select-conversation', otherUser, conversation.messages)
     },
     otherUser (users) {
-      var otherUserId = users.find(x => x !== this.currentUser.id)
-      return this.contacts.find(x => x.id === otherUserId)
+      var otherUserId = users.find(x => x !== this.currentUser._id)
+      return this.contacts.find(x => x._id === otherUserId)
     }
   },
   computed: {},

@@ -59,25 +59,16 @@ export default {
             message: '',
             searchKey: '',
             isLoadCurrentConversation: false,
-            otherUser: {
-                // TODO: сделать загрузку
-                _id: "5debc4c58a9b8a6eb575b982",
-                profile: {
-                    anket: {
-                        name: "Светлана"
-                    },
-                    img: '../../../assets/img/cheesecake-thumb.jpg'
-                }
-            },
+            otherUser: null,
             conversationMessages: [],
             isSeen : false
         }
     },
     computed: {
-        ...mapGetters(['currentUser', 'isLoadContacts', 'isLoadConversations', 'error', 'contacts', 'contactsSearchResult', 'conversations'])
+        ...mapGetters(['currentUser', 'isLoadContacts', 'isLoadConversations', 'error', 'contacts', 'contactsSearchResult'])
     },
     methods: {
-        ...mapActions(['getContacts', 'searchContacts', 'getConversations']),
+        ...mapActions(['getContacts', 'searchContacts']),
         selectConversation(otherUser, messages) {
             this.otherUser = otherUser
             this.conversationMessages = messages
@@ -85,30 +76,24 @@ export default {
         selectContact(userId) {
             this.isSeen = true;
             this.otherUser = this.contacts.find(x => x._id === userId)
-            const conversation = this.conversations.find(x => x.users.includes(userId) && x.users.includes(this.currentUser._id))
-            if (conversation) {
-                console.log('change selected conversation')
-                this.conversationMessages = conversation.messages
-            } else {
-                console.log('create new conversation')
-                const date = new Date()
-                this.conversations.splice(0, 0, {
-                    users: [userId, this.currentUser._id],
-                    messages: [],
-                    lastMessageTime: date.getHours() + ':' + date.getMinutes()
-                })
-                this.conversationMessages = []
-            }
+            // const conversation = this.conversations.find(x => x.users.includes(userId) && x.users.includes(this.currentUser._id))
+            // if (conversation) {
+            //     console.log('change selected conversation')
+            //     this.conversationMessages = conversation.messages
+            // } else {
+            //     console.log('create new conversation')
+            //     const date = new Date()
+            //     this.conversationMessages = []
+            // }
             this.tabIndex = 0
             this.message = ''
             this.searchKey = ''
         },
         sendMessage() {
-            console.log('add message to conversation')
             const date = new Date()
             let message = {
                 text: this.message,
-                chatId: "dd"
+                chatId: this.otherUser._id
             }
             
             if(message.text){
@@ -119,17 +104,10 @@ export default {
 
                 this.message = ''
             }
-
-            //console.log(message)
-
         }
     },
     created(){
         this.socket = io('http://45.80.68.81:3000');
-        this.socket.on('connect', () => {
-            console.log("Connected");
-        });
-        console.log("created");
         this.socket.on('sent', (answer) => {
             let messageLetter = JSON.parse(answer.data.body).data[0];
             this.conversationMessages.push(messageLetter);
@@ -138,11 +116,9 @@ export default {
     mounted() {
         
         this.getContacts({
-            userId: this.currentUser._id,
-            searchKey: ''
+            userId: this.currentUser._id
         })
         
-        this.getConversations(this.currentUser._id)
         document.body.classList.add("no-footer");
     },
     beforeDestroy() {
