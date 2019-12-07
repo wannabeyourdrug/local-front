@@ -21,13 +21,7 @@
                                 </p>
                                 <p class="text-muted text-small mb-2">{{$t('pages.location')}}</p>
                                 <p class="mb-3">{{currentUser.profile.anket.city}}</p>
-                                <p class="text-muted text-small mb-2">{{$t('pages.responsibilities')}}</p>
-                                <p class="mb-3">
-                                    <b-badge variant="outline-secondary" class="mb-1 mr-1" pill>FRONTEND</b-badge>
-                                    <b-badge variant="outline-secondary" class="mb-1 mr-1" pill>JAVASCRIPT</b-badge>
-                                    <b-badge variant="outline-secondary" class="mb-1 mr-1" pill>SECURITY</b-badge>
-                                    <b-badge variant="outline-secondary" class="mb-1 mr-1" pill>DESIGN</b-badge>
-                                </p>
+                                
                                 <p class="text-muted text-small mb-2">{{$t('menu.contact')}}</p>
                                 <div class="social-icons">
                                     <ul class="list-unstyled list-inline">
@@ -53,101 +47,104 @@
 
                             <b-colxx sm="6">
                                 <b-form-group :label="$t('forms.name')">
-                                <b-form-input disabled type="text" v-model="currentUser.profile.anket.name" />
+                                <b-form-input :disabled="isEditMode" type="text" v-model="currentUser.profile.anket.name" />
                                 </b-form-group>
                             </b-colxx>
                             <b-colxx sm="2">
                                 <b-form-group :label="$t('forms.age')">
-                                <b-form-input disabled type="number" v-model="currentUser.profile.anket.age" />
+                                <b-form-input :disabled="isEditMode" type="number" v-model="currentUser.profile.anket.age" />
                                 </b-form-group>
                             </b-colxx>
                             <b-colxx sm="4">
                                 <b-form-group :label="$t('forms.city')">
-                                <b-form-input disabled v-model="currentUser.profile.anket.city" ></b-form-input>
+                                <b-form-input :disabled="isEditMode" v-model="currentUser.profile.anket.city" ></b-form-input>
                                 </b-form-group>
                             </b-colxx>
                             <b-colxx sm="4">
                                 <b-form-group :label="$t('forms.sex')">
-                                    <b-form-select disabled plaintext :options="['Мужской', 'Женский']"  v-model="currentUser.profile.anket.sex" plain  />
+                                    <b-form-select :disabled="isEditMode" plaintext :options="['Мужской', 'Женский']"  v-model="currentUser.profile.anket.sex" plain  />
                                 </b-form-group>
                             </b-colxx>
                             <b-colxx sm="4">
                                 <b-form-group :label="$t('forms.maritalStatus')">
-                                    <b-form-select disabled :options="['Замужем/женат', 'В отношениях', 'Свободен/свободна']"  v-model="currentUser.profile.anket.maritalStatus" plain  />
+                                    <b-form-select :disabled="isEditMode" :options="['Замужем/женат', 'В отношениях', 'Свободен/свободна']"  v-model="currentUser.profile.anket.maritalStatus" plain  />
                                 </b-form-group>
                             </b-colxx>
                             <b-colxx sm="4">
                                 <b-form-group :label="$t('forms.children')">
-                                <b-form-select disabled :options="['Есть', 'Нет']"  v-model="currentUser.profile.anket.children" plain  />
+                                <b-form-select :disabled="isEditMode" :options="['Есть', 'Нет']"  v-model="currentUser.profile.anket.children" plain  />
                                 </b-form-group>
                             </b-colxx>
                             <b-colxx sm="6">
                                 <b-form-group :label="$t('forms.RhythmOfLife')">
-                                <b-form-input disabled v-model="currentUser.profile.anket.RhythmOfLife" ></b-form-input>
+                                <b-form-input :disabled="isEditMode" v-model="currentUser.profile.anket.RhythmOfLife" ></b-form-input>
                                 </b-form-group>
                             </b-colxx>
                             <b-colxx sm="6">
                                 <b-form-group :label="$t('forms.hobbies')">
-                                <b-form-input disabled v-model="currentUser.profile.anket.hobbies" ></b-form-input>
+                                <b-form-input :disabled="isEditMode" v-model="currentUser.profile.anket.hobbies" ></b-form-input>
                                 </b-form-group>
                             </b-colxx>
                             <b-colxx sm="6">
                                 <b-form-group :label="$t('forms.perfectTripForYou')">
-                                    <b-form-select disabled :options="['Моря-океаны (пляжный отдых)','Экскурсионный туризм', 'Шоппинг-туризм', 'Лечебный отдых', 'Экстремальный отдых (рафтинг, виндсерфинг, дайвинг, сафари).']"
+                                    <b-form-select :disabled="isEditMode" :options="['Моря-океаны (пляжный отдых)','Экскурсионный туризм', 'Шоппинг-туризм', 'Лечебный отдых', 'Экстремальный отдых (рафтинг, виндсерфинг, дайвинг, сафари).']"
                                          v-model="currentUser.profile.anket.perfectTripForYou" plain  />
                                 </b-form-group>
                             </b-colxx>
                             <b-colxx sm="6">
                                 <b-form-group :label="$t('forms.eatingHabits')">
-                                    <b-form-select disabled v-model="currentUser.profile.anket.eatingHabits" 
+                                    <b-form-select :disabled="isEditMode" v-model="currentUser.profile.anket.eatingHabits" 
                                         :options="['Русская кухня (пельмени, борщ, блины)','Японская кухня (суши и роллы)','Итальянская кухня (паста, пицца, тирамису)','Американская кухня (хот-доги, бургеры, фри)','Вегетарианец!']" plain />
                                 </b-form-group>
                             </b-colxx>
                             <b-colxx sm="6">
                                 <b-form-group :label="$t('forms.attitudeToAlcohol')">
-                                    <b-form-select disabled :options="['Негативное (точно не буду)','Нейтральное(в хорошей компании буду)','Положительное (буду)']"  v-model="currentUser.profile.anket.attitudeToAlcohol" plain  />
+                                    <b-form-select :disabled="isEditMode" :options="['Негативное (точно не буду)','Нейтральное(в хорошей компании буду)','Положительное (буду)']"  v-model="currentUser.profile.anket.attitudeToAlcohol" plain  />
                                 </b-form-group>
                             </b-colxx>
                             <b-colxx sm="6">
                                 <b-form-group :label="$t('forms.favoriteMusic')">
-                                    <b-form-select disabled :options="['Поп','Рок','Хип-хоп','Рэп','Электронная музыка','Джаз']"  v-model="currentUser.profile.anket.favoriteMusic" plain  />
+                                    <b-form-select :disabled="isEditMode" :options="['Поп','Рок','Хип-хоп','Рэп','Электронная музыка','Джаз']"  v-model="currentUser.profile.anket.favoriteMusic" plain  />
                                 </b-form-group>
                             </b-colxx>
                             <b-colxx sm="6">
                                 <b-form-group :label="$t('forms.haveAnyPets')">
-                                    <b-form-select disabled :options="['Собака','Кошка','Грызун','Птица','Рептилии','Не люблю животны']"  v-model="currentUser.profile.anket.haveAnyPets" plain  />
+                                    <b-form-select :disabled="isEditMode" :options="['Собака','Кошка','Грызун','Птица','Рептилии','Не люблю животны']"  v-model="currentUser.profile.anket.haveAnyPets" plain  />
                                 </b-form-group>
                             </b-colxx>
                             <b-colxx sm="6">
                                 <b-form-group :label="$t('forms.valuesLife')">
-                                     <b-form-select disabled :options="['Профессиональная карьера','Семья','Друзья','Материальное благополучие','Здоровье','Репутация и статус в обществе','Любовь','Образование']"  v-model="currentUser.profile.anket.valuesLife" plain  />
+                                     <b-form-select :disabled="isEditMode" :options="['Профессиональная карьера','Семья','Друзья','Материальное благополучие','Здоровье','Репутация и статус в обществе','Любовь','Образование']"  v-model="currentUser.profile.anket.valuesLife" plain  />
                                 </b-form-group>
                             </b-colxx>
                             <b-colxx sm="6">
                                 <b-form-group :label="$t('forms.attractYouMore')">
-                                    <b-form-select disabled :options="['Ум','Доброта','Чувство юмора','Уверенность в себе','Целеустремленность','Отзывчивость','Инициативность','Трудолюбие','Терпеливость','Верность','Пунктуальность','Внимательнсть','Смелость','Жизнерадостность']" 
+                                    <b-form-select :disabled="isEditMode" :options="['Ум','Доброта','Чувство юмора','Уверенность в себе','Целеустремленность','Отзывчивость','Инициативность','Трудолюбие','Терпеливость','Верность','Пунктуальность','Внимательнсть','Смелость','Жизнерадостность']" 
                                         plain v-model="currentUser.profile.anket.attractYouMore" />
                                 </b-form-group>
                             </b-colxx>
                             <b-colxx sm="6">
                                 <b-form-group :label="$t('forms.pushYouStronger')">
-                                <b-form-select disabled v-model="currentUser.profile.anket.pushYouStronger" plain
+                                <b-form-select :disabled="isEditMode" v-model="currentUser.profile.anket.pushYouStronger" plain
                                     :options="['Глупость','Жадность','Лицемерие','Эгоизм','Грубость','Чрезмерная серьезность','Легкомысленность','Конфликтность','Вспыльчивость','Пассивность','Обидчивость','Завистливость','Неряшливость']" />
                                 </b-form-group>
                             </b-colxx>
                             <b-colxx sm="6">
                                 <b-form-group :label="$t('forms.mostCriticalAnotherPerson')">
-                                <b-form-select disabled v-model="currentUser.profile.anket.mostCriticalAnotherPerson" plain
+                                <b-form-select :disabled="isEditMode" v-model="currentUser.profile.anket.mostCriticalAnotherPerson" plain
                                     :options="['Курение','Употребление алкоголя','Медлительность','Непунктуальность','Молчаливость','Пессимизм','Суетливость','Болтливость']" />
                                 </b-form-group>
                             </b-colxx>
                             <b-colxx sm="6">
                                 <b-form-group :label="$t('forms.qualitiesMostPronounced')">
-                                <b-form-select disabled v-model="currentUser.profile.anket.qualitiesMostPronounced" plain
+                                <b-form-select :disabled="isEditMode" v-model="currentUser.profile.anket.qualitiesMostPronounced" plain
                                     :options="['Креативность','Ответственность','Коммуникабельность','Обидчивость','Стрессоустойчивость','Нерешительность','Аккуратность','Честность','Терпеливость','Доброта','Верность','Искренность']" />
                                 </b-form-group>
                             </b-colxx>
                             </b-row>
+                            <!-- <b-button pill ref="header20" variant="outline-secondary" id ="change" class="mt-4" @click ="changeA">Изменить</b-button> -->
+                            <b-button :disabled ="!isEditMode" pill variant="primary" class="mt-4" @click ="changeA">Изменить</b-button>
+                            <b-button :disabled ="isEditMode"  variant="primary" class="mt-4" @click ="save">{{ $t('forms.save') }}</b-button>
                         </b-form>
                         </b-card>
                     </b-colxx>
@@ -192,10 +189,28 @@ export default {
             recentPosts,
             followers: followers.slice(0, 5),
             friends: followers.slice(0),
-            posts
+            posts,
+            isEditMode: true
         };
     },
-    methods: {},
+    methods: {
+        ...mapActions(['saveQuestionary']),
+        // formSubmit(){
+        //     this.saveQuestionary({
+        //         currentUser: this.currentUser
+        //     });
+        // },
+        save(){
+            this.saveQuestionary({
+                currentUser: this.currentUser
+            });
+        },
+
+        changeA(){
+            this.isEditMode = !this.isEditMode;
+        }
+    },
+        
     mounted() {}
 };
 </script>

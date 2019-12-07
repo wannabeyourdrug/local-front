@@ -6,7 +6,7 @@ function sendLetter(obj, socket) {
                "body": JSON.stringify(obj),
                "headers": {
                     "Content-Type": "application/json",
-                    "Authorization": "eyJ0YWdzIjpbXSwiX2lkIjoiNWRlYjkwM2VlMjZjNmM2OWNkZTU3ODk3IiwidXNlcm5hbWUiOiJoZWxsbyIsIl9fdiI6MCwiaWF0IjoxNTc1NzE4OTc0fQ.hLuG0ZLJb1vwg2q7lnnGQrUWC1TRg4p2lZTDb-piY2s"
+                    "Authorization": localStorage.getItem('token')
                }
           },
           type: 'sent'

@@ -129,13 +129,17 @@ export default {
         })
     },
     mounted() {
+        console.log(this.currentUser);
+        
         this.getContacts({
-            userId: this.currentUser.id,
+            userId: this.currentUser._id,
             searchKey: ''
         })
-        this.getConversations(this.currentUser.id)
+        
+        console.log(1);
+        this.getConversations(this.currentUser._id)
+        console.log(2);
         document.body.classList.add("no-footer");
-        console.log("123");
 
         socket.on('sent', (answer) => {
             console.log(answer)
