@@ -68,7 +68,7 @@ export default {
       axios.post(apiUrl + '/login', payload)
         .then(res => {
           const item = res.data.meta.token
-          localStorage.setItem('token', JSON.stringify(item))
+          localStorage.setItem('token', item)
           const user = res.data.data[0];
           if (!user.profile) user.profile = {};
           if (!user.scores) user.scores = {};
