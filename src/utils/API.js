@@ -13,7 +13,7 @@ const token = '';
  * @export
  * @async
  */
-export default async function api(method, model, data) {
+export default async function api(method, model, data = {}) {
     return new Promise((resolve, reject) => {
         let req = {
             uri: 'http://127.0.0.1:80/api/' + model,
