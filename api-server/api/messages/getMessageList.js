@@ -4,6 +4,7 @@
 const buildMeta = require('../../helpers/buildMeta');
 const answerBuilder = require('../../helpers/answerBuilder');
 const Message = require('../../models/Message');
+const getToken = require('../../helpers/getToken');
 
 /**
  * @function
