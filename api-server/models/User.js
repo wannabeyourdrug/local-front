@@ -8,8 +8,8 @@ const schema = new Schema({
         unique: true
     },
     profile:{},
-    tags:{},
-    scores:{},
+    tags:[String],
+    scores:{}
 });
 
 module.exports = mongoose.model('User', schema);
