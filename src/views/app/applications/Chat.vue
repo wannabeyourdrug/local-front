@@ -57,7 +57,16 @@ export default {
             message: '',
             searchKey: '',
             isLoadCurrentConversation: false,
-            otherUser: null,
+            otherUser: {
+                // TODO: сделать загрузку
+                _id: "5debc4c58a9b8a6eb575b982",
+                profile: {
+                    anket: {
+                        name: "Светлана"
+                    },
+                    img: '../../../assets/img/cheesecake-thumb.jpg'
+                }
+            },
             conversationMessages: []
         }
     },

@@ -3,8 +3,8 @@
     <div class="d-flex flex-row chat-heading">
       <div class="d-flex">
         <img
-          :alt="otherUser.title"
-          :src="otherUser.img"
+          :alt="otherUser.profile.anket.name"
+          :src="otherUser.profile.img"
           class="img-thumbnail border-0 rounded-circle ml-0 mr-4 list-thumbnail align-self-center small"
         />
       </div>
@@ -15,10 +15,10 @@
           <div class="min-width-zero">
             <div>
               <p class="list-item-heading mb-1 truncate">
-                {{ otherUser.title }}
+                {{ otherUser.profile.anket.name }}
               </p>
             </div>
-            <p class="mb-0 text-muted text-small">{{ otherUser.date }}</p>
+            <!-- <p class="mb-0 text-muted text-small">{{ otherUser.date }}</p> -->
           </div>
         </div>
       </div>
@@ -34,8 +34,8 @@
           no-body
           :class="{
             'd-inline-block mb-3': true,
-            'float-left': message.sender === otherUser.id,
-            'float-right': message.sender === currentUser.id
+            'float-left': message.author === otherUser._id,
+            'float-right': message.author === currentUser._id
           }"
         >
           <div class="position-absolute pt-1 pr-2 r-0">
@@ -44,11 +44,11 @@
           <b-card-body>
             <div
               class="d-flex flex-row pb-1"
-              v-if="message.sender === currentUser.id"
+              v-if="message.author === currentUser._id"
             >
               <img
-                :alt="currentUser.title"
-                :src="currentUser.img"
+                :alt="currentUser.profile.anket.name"
+                :src="currentUser.profile.img"
                 class="img-thumbnail border-0 rounded-circle mr-3 list-thumbnail align-self-center xsmall"
               />
               <div class="d-flex flex-grow-1 min-width-zero">
@@ -57,7 +57,7 @@
                 >
                   <div class="min-width-zero">
                     <p class="mb-0 truncate list-item-heading">
-                      {{ currentUser.title }}
+                      {{ currentUser.profile.anket.name }}
                     </p>
                   </div>
                 </div>
@@ -65,8 +65,8 @@
             </div>
             <div class="d-flex flex-row pb-1" v-else>
               <img
-                :alt="otherUser.title"
-                :src="otherUser.img"
+                :alt="otherUser.profile.anket.name"
+                :src="otherUser.profile.img"
                 class="img-thumbnail border-0 rounded-circle mr-3 list-thumbnail align-self-center xsmall"
               />
               <div class="d-flex flex-grow-1 min-width-zero">
@@ -75,7 +75,7 @@
                 >
                   <div class="min-width-zero">
                     <p class="mb-0 truncate list-item-heading">
-                      {{ otherUser.title }}
+                      {{ otherUser.profile.anket.name }}
                     </p>
                   </div>
                 </div>
