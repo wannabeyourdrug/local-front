@@ -1,6 +1,6 @@
 <template>
 <div>
-    <b-row class="app-row">
+    <!-- <b-row class="app-row">
         <b-colxx xxs="12" class="chat-app">
             <conversation-detail v-if="isLoadContacts && isLoadConversations && otherUser!=null" key="conversation" :current-user="currentUser" :other-user="otherUser" :messages="conversationMessages" />
             <div v-else class="loading" key="conversationLoading"></div>
@@ -32,7 +32,7 @@
                 <div v-else class="loading" key="contactListLoading"></div>
             </b-tab>
         </b-tabs>
-    </application-menu>
+    </application-menu> -->
 </div>
 </template>
 

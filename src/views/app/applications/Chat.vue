@@ -57,7 +57,10 @@ export default {
             message: '',
             searchKey: '',
             isLoadCurrentConversation: false,
-            otherUser: null,
+            otherUser: {
+                title: "собеседник",
+                img: "../../../assets/img/cheesecake-thumb.jpg"
+            },
             conversationMessages: []
         }
     },

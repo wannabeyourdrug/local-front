@@ -27,7 +27,7 @@ export default {
       state.loginError = null
     },
     setUser(state, payload) {
-      state.currentUser = payload
+      state.currentUser = JSON.parse(payload)
       state.processing = false
       state.loginError = null
     },

@@ -96,7 +96,7 @@ export default {
     },
     watch: {
         currentUser(val) {
-            if (val && JSON.parse(val)._id && JSON.parse(val)._id.length > 0) {
+            if (val && val._id && val._id.length > 0) {
                 setTimeout(() => {
                     this.$router.push("/");
                 }, 200);
