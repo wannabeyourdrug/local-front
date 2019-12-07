@@ -16,29 +16,30 @@ const logger = winston.createLogger({
 	level: 'info',
 	format: winston.format.json(),
 	defaultMeta: {
-	  service: 'api-service'
+		service: 'api-service'
 	},
 	transports: [
-	  new winston.transports.File({
-	    filename: 'error.log',
-	    level: 'error'
-	  }),
-	  new winston.transports.File({
-	    filename: 'combined.log'
-	  })
+		new winston.transports.File({
+			filename: 'error.log',
+			level: 'error'
+		}),
+		new winston.transports.File({
+			filename: 'combined.log'
+		})
 	]
 });
 
 if (process.env.NODE_ENV !== 'production') {
-logger.add(new winston.transports.Console({
-	format: winston.format.simple()
-}));
+	logger.add(new winston.transports.Console({
+		format: winston.format.simple()
+	}));
 }
 
 const getTimeNow = require('./helpers/getTimeNow');
 const disconnectUser = require('./helpers/dicsonnectUser');
 const callAll = require('./helpers/callAll');
 const callMe = require('./helpers/callMe');
+
 
 // Навешиваем события на коннект
 ioServer.sockets.on('connection', (socket) => {
@@ -63,6 +64,7 @@ ioServer.sockets.on('connection', (socket) => {
 	};
 
 	socket.on('message', (obj) => {
+		let message = ' ';
 		// Получаем текущее время
 		time = getTimeNow();
 		// Выделаем из объекта запроса собственно запрос на сервер и тип запроса (для отправки sent, для получения get)
@@ -72,77 +74,83 @@ ioServer.sockets.on('connection', (socket) => {
 			type
 		} = obj;
 		// Выполняем запрос на API сервер
-		request(req, (error, response, body) => {
-			// Если ошибка - отвечаем ошибкой
-			if (error) {
-				event = 'Error';
-				const message = 'Server error';
-				answer = {
-					event,
-					id,
-					time,
-					message,
-					error,
-					body,
-					response
-				};
-				callMe(socket, answer, logger);
-			} else {
-				switch (type) {
-					case 'sent':
-						event = 'sent';
-						const message = 'Sent Message';
-						answer = {
-							event,
-							id,
-							time,
-							message,
-							error,
-							body,
-							response
-						};
-						callAll(socket, answer, logger);
-						break;
-					case 'get':
-						event = 'get';
-						const message = 'Got Messages';
-						answer = {
-							event,
-							id,
-							time,
-							message,
-							error,
-							body,
-							response
-						};
-						callMe(socket, answer, logger);
-						break;
-					default:
-						event = 'Error';
-						const message = 'Not correct type';
-						answer = {
-							event,
-							id,
-							time,
-							message,
-							error,
-							body,
-							response
-						};
-						callMe(socket, answer, logger);
-						break;
+		try {
+			request(req, (error, response, body) => {
+				// Если ошибка - отвечаем ошибкой
+				if (error) {
+					event = 'Error';
+					message = 'Server error';
+					answer = {
+						event,
+						id,
+						time,
+						message,
+						error,
+						body,
+						response
+					};
+					callMe(socket, answer, logger);
+				} else {
+					switch (type) {
+						case 'sent':
+							event = 'sent';
+							message = 'Sent Message';
+							answer = {
+								event,
+								id,
+								time,
+								message,
+								error,
+								body,
+								response
+							};
+							callAll(socket, answer, logger);
+							break;
+						case 'get':
+							event = 'get';
+							message = 'Got Messages';
+							answer = {
+								event,
+								id,
+								time,
+								message,
+								error,
+								body,
+								response
+							};
+							callMe(socket, answer, logger);
+							break;
+						default:
+							event = 'Error';
+							message = 'Not correct type';
+							answer = {
+								event,
+								id,
+								time,
+								message,
+								error,
+								body,
+								response
+							};
+							callMe(socket, answer, logger);
+							break;
+					}
 				}
-			}
-		});
+			});
+		} catch (e) {
+			console.log(e);
+		}
 	});
+
 	// Подписываемся на событие запроса с API-сервера
 	// ИДЕЯ: нам нужно API для socket-соединения, которое будет просто "проксировать" реальное API, превращая любое API в real time.
 	socket.on('api', (req) => {
+		let message = ' ';
 		// Выполняем запрос
 		request(req, (error, response, body) => {
 			if (error) {
 				event = 'Error';
-				const message = 'Server error';
+				message = 'Server error';
 				answer = {
 					event,
 					id,
@@ -155,7 +163,7 @@ ioServer.sockets.on('connection', (socket) => {
 				callMe(socket, answer, logger);
 			} else {
 				event = 'getApi';
-				const message = 'Got Result';
+				message = 'Got Result';
 				answer = {
 					event,
 					id,
