@@ -6,15 +6,14 @@ import { currentUser, apiUrl } from '../../constants/config'
 export default {
   state: {
     currentUser: localStorage.getItem('user') != null ? JSON.parse(localStorage.getItem('user')) : null,
-    searchUsers: localStorage.getItem('searchUsers') != null ? JSON.parse(localStorage.getItem('searchUsers')) : null,
-    searchUsers: null,
+    users: null,
     loginError: null,
     processing: false,
     forgotMailSuccess:null,
     resetPasswordSuccess:null
   },
   getters: {
-    searchUsers: state => state.searchUsers,
+    users: state => state.users,
     currentUser: state => state.currentUser,
     processing: state => state.processing,
     loginError: state => state.loginError,
@@ -23,7 +22,7 @@ export default {
   },
   mutations: {
     setSearchUsers(state, payload) {
-      state.searchUsers = payload
+      state.users = payload
       state.processing = false
       state.loginError = null
     },
@@ -79,27 +78,42 @@ export default {
     },
 
     searchUsers({ commit }, payload) {
-      const bodyRecord = {
-        token: JSON.parse('"'+ localStorage.getItem('token') + '"'),
-        tags: payload.search,
-      };
-      console.log(bodyRecord);
-      axios.post(apiUrl + '/users', bodyRecord, { headers: { Authorization: JSON.parse('"' + localStorage.getItem('token') + '"')}})
-        .then((response) => {
-          let users =  [];
-          try {
-           users = response.data.data || [];
-          localStorage.setItem('searchUsers', JSON.stringify(users));
-          commit('setSearchUsers', JSON.stringify(users))
-          } catch(e) {
-            users = [];
-            localStorage.setItem('searchUsers', JSON.stringify(users));
-            commit('setSearchUsers', JSON.stringify(users))
+
+      axios
+        .post(`${apiUrl}/users`, payload, {
+          headers: {
+            Authorization: localStorage.getItem('token')
           }
         })
-        .catch((e)=> {
-          console.log(e);
+        .then(r => r.data)
+        .then(res => {
+          console.log(res);
+          
+          commit('setSearchUsers', res.data)
         })
+        .catch(e => console.log(e))
+
+      // const bodyRecord = {
+      //   //token: JSON.parse('"'+ localStorage.getItem('token') + '"'),
+      //   tags: payload.search,
+      // };
+      // console.log(bodyRecord);
+      // axios.post(apiUrl + '/users', bodyRecord, { headers: { Authorization: localStorage.getItem('token')}})
+      //   .then((response) => {
+      //     let users =  [];
+      //     try {
+      //      users = response.data.data || [];
+      //     //localStorage.setItem('searchUsers', JSON.stringify(users));
+      //     commit('setSearchUsers', JSON.stringify(users))
+      //     } catch(e) {
+      //       users = [];
+      //       localStorage.setItem('searchUsers', JSON.stringify(users));
+      //       commit('setSearchUsers', JSON.stringify(users))
+      //     }
+      //   })
+      //   .catch((e)=> {
+      //     console.log(e);
+      //   })
     },
     
     signOut({ commit }) {
@@ -112,7 +126,7 @@ export default {
 
     saveQuestionary({ commit }, payload) {
       const bodyRecord = {
-        token: JSON.parse('"' + localStorage.getItem('token') + '"'),
+        //token: JSON.parse('"' + localStorage.getItem('token') + '"'),
         profile: payload.currentUser.profile
       };
       axios.put(apiUrl + '/users/' + payload.currentUser._id,  bodyRecord)
