@@ -12,7 +12,7 @@ export const localeOptions = [
   { id: 'es', name: 'Español', direction: 'ltr' },
   { id: 'enrtl', name: 'English RTL', direction: 'rtl' }
 ]
-export const apiUrl = 'http://localhost:3000/api'
+export const apiUrl = 'http://45.80.68.81/api'
 
 export const currentUser = {
   id: 1,
