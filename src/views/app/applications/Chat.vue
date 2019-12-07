@@ -16,14 +16,7 @@
     </div>
     <application-menu>
         <b-tabs no-fade class="pl-0 pr-0 h-100" content-class="chat-app-tab-content" nav-class="card-header-tabs ml-0 mr-0" v-model="tabIndex">
-            <b-tab :title="$t('chat.messages')" active title-item-class="w-50 text-center" no-body class="chat-app-tab-pane">
-                <div class="pt-4 spaced-content pb-0 mt-2">
-
-                </div>
-                <conversation-list v-if="isLoadContacts && isLoadConversations" key="conversationList" :current-user="currentUser" :conversations="conversations" :contacts="contacts" @select-conversation="selectConversation" />
-                <div v-else class="loading" key="conversationListLoading"></div>
-            </b-tab>
-            <b-tab :title="$t('chat.contacts')" title-item-class="w-50 text-center" no-body class="chat-app-tab-pane">
+            <b-tab :title="$t('chat.messages')" title-item-class="w-100 text-center" no-body class="chat-app-tab-pane">
                 <div class="pt-4 spaced-content pb-0 mt-2">
                     <div class="form-group">
                         <b-input type="text" class="rounded" :placeholder="$t('menu.search')" v-model="searchKey" />
@@ -31,8 +24,9 @@
                 </div>
                 <contact-list v-if="isLoadContacts" key="contactList" :data="contactsSearchResult" @select-contact="selectContact" />
                 <div v-else class="loading" key="contactListLoading"></div>
-            </b-tab>
-        </b-tabs>
+            </b-tab>  
+
+        </b-tabs> 
     </application-menu>
 </div>
 </template>
