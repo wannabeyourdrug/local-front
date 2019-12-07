@@ -80,11 +80,11 @@ export default {
 
     searchUsers({ commit }, payload) {
       const bodyRecord = {
-        token: JSON.parse(localStorage.getItem('token')),
+        token: JSON.parse('"'+ localStorage.getItem('token') + '"'),
         tags: payload.search,
       };
       console.log(bodyRecord);
-      axios.post(apiUrl + '/users', bodyRecord, { headers: { Authorization: JSON.parse(localStorage.getItem('token'))}})
+      axios.post(apiUrl + '/users', bodyRecord, { headers: { Authorization: JSON.parse('"' + localStorage.getItem('token') + '"')}})
         .then((response) => {
           let users =  [];
           try {
@@ -112,7 +112,7 @@ export default {
 
     saveQuestionary({ commit }, payload) {
       const bodyRecord = {
-        token: JSON.parse(localStorage.getItem('token')),
+        token: JSON.parse('"' + localStorage.getItem('token') + '"'),
         profile: payload.currentUser.profile
       };
       axios.put(apiUrl + '/users/' + payload.currentUser._id,  bodyRecord)
