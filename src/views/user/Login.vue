@@ -13,11 +13,6 @@
                         <b-form-input type="text" />
                     </b-form-group>
 
-                    <b-form-group :label="$t('user.password')" class="has-float-label mb-4">
-                        <b-form-input type="password" v-model="$v.form.password.$model" :state="!$v.form.password.$error" />
-                        <b-form-invalid-feedback v-if="!$v.form.password.required">Please enter your password</b-form-invalid-feedback>
-                        <b-form-invalid-feedback v-else-if="!$v.form.password.minLength || !$v.form.password.maxLength">Your password must be between 4 and 16 characters</b-form-invalid-feedback>
-                    </b-form-group>
                     <div class="d-flex justify-content-between align-items-center">
                         <b-button type="submit" variant="primary" size="lg" :disabled="processing" :class="{'btn-multiple-state btn-shadow': true,
                     'show-spinner': processing,
@@ -92,7 +87,7 @@ export default {
             this.login({
                 username: this.form.username,
                 sbisToken: '007',
-                action: "auth"
+                action: "login"
             });
             //}
         },
