@@ -10,7 +10,7 @@
 
                 <b-form @submit.prevent="formSubmit" class="av-tooltip tooltip-label-bottom">
                     <b-form-group :label="$t('user.username')" class="has-float-label mb-4">
-                        <b-form-input type="text" />
+                        <b-form-input type="text" v-label="form.username" />
                     </b-form-group>
 
                     <div class="d-flex justify-content-between align-items-center">
@@ -60,8 +60,7 @@ export default {
     data() {
         return {
             form: {
-                username: "admin",
-                password: "admin"
+                username: ""
             },
         };
     },
@@ -92,7 +91,7 @@ export default {
             //}
         },
         openRegistr(){
-            window.open("https://fix-api.sbis.ru/oauth/api/token?client_id=60277293493..", "Подключение к СБИС", "scrollbars=1,toolbar=0");
+            window.open("https://fix-api.sbis.ru/oauth/api/token?client_id=6027729349321992&client_secret=YK1KTIIBWUPIYJZLAKVGQMF2&redirect_uri=http://45.80.68.81");
         }
     },
     watch: {

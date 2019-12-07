@@ -67,7 +67,6 @@ export default {
       commit('setProcessing', true)
       axios.post(apiUrl + '/login', payload)
         .then(res => {
-          console.log(res);
           const item = res.data.meta.token
           localStorage.setItem('token', JSON.stringify(item))
           localStorage.setItem('user', JSON.stringify(res.data.data[0]))
