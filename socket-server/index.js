@@ -148,7 +148,7 @@ ioServer.sockets.on('connection', (socket) => {
 	socket.on('api', (req) => {
 		let message = ' ';
 		// Выполняем запрос
-		request(req, (error, response, body) => {
+		request(JSON.parse(req), (error, response, body) => {
 			if (error) {
 				event = 'Error';
 				message = 'Server error';
@@ -183,7 +183,7 @@ ioServer.sockets.on('connection', (socket) => {
 		// Получаем из данных объекта - куда планируется отправить сообщение
 		const {
 			target
-		} = req;
+		} = JSON.parse(req);
 		// Получаем сообщение, которое требуется отправить
 		let message = (req.hasOwnProperty('message')) ? req.message : '';
 		// Задаём переменную функции
