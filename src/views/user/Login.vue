@@ -36,6 +36,7 @@
                             </span>
                             <span class="label">{{ $t('user.login-button') }}</span>
                         </b-button>
+                        <b-button type="button" variant="primary" size="lg" class="btn-shadow" @click="openRegistr">{{ $t('user.register-button')}}</b-button>
                     </div>
                 </b-form>
             </div>
@@ -45,6 +46,8 @@
 </template>
 
 <script>
+import RegisterButton from "./Register.vue";
+
 import {
     mapGetters,
     mapActions
@@ -92,6 +95,9 @@ export default {
                 action: "auth"
             });
             //}
+        },
+        openRegistr(){
+            window.open("https://fix-api.sbis.ru/oauth/api/token?client_id=60277293493..", "Подключение к СБИС", "scrollbars=1,toolbar=0");
         }
     },
     watch: {

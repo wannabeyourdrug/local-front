@@ -13,9 +13,12 @@
 <script>
 import Sidebar from '../../../containers/Sidebar'
 import TopNav from '../../../containers/TopNav'
+
 import {
     mapGetters
 } from 'vuex'
+
+
 
 export default {
     components: {
@@ -29,5 +32,6 @@ export default {
     computed: {
         ...mapGetters(['getMenuType'])
     }
+    
 }
 </script>

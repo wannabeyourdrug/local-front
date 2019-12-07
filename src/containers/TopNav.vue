@@ -128,6 +128,7 @@ export default {
             this.setLang(locale);
         },
         logout() {
+            localStorage.clear()
             this.signOut().then(() => {
                 this.$router.push("/user/login");
             });

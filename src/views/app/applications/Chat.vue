@@ -46,6 +46,9 @@ import ApplicationMenu from '../../../components/Common/ApplicationMenu'
 import ContactList from '../../../components/ChatApp/ContactList'
 import ConversationList from '../../../components/ChatApp/ConversationList'
 import ConversationDetail from '../../../components/ChatApp/ConversationDetail'
+import sendLetter from '../../../utils/chatUtils'
+import io from 'socket.io-client'
+
 
 export default {
     components: {
@@ -96,21 +99,48 @@ export default {
         sendMessage() {
             console.log('add message to conversation')
             const date = new Date()
-            this.conversationMessages.push({
-                sender: this.currentUser.id,
+            let message = {
                 text: this.message,
-                time: date.getHours() + ':' + date.getMinutes()
-            })
+                chatId: "ddd"
+            }
+            if (!this.conversationMessages) {
+                this.conversationMessages = [];
+            }
+            
+            this.conversationMessages.push(message)
+            sendLetter(message, this.socket)
+
             this.message = ''
+            //console.log(message)
+
         }
     },
+    created(){
+        this.socket = io('http://45.80.68.81:3000');
+        this.socket.on('connect', () => {
+            console.log("Connected");
+        });
+        console.log("created");
+        this.socket.on('sent', (answer) => {
+            console.log("answered");
+        })
+    },
     mounted() {
+        console.log(this.currentUser);
+        
         this.getContacts({
-            userId: this.currentUser.id,
+            userId: this.currentUser._id,
             searchKey: ''
         })
-        this.getConversations(this.currentUser.id)
+        
+        console.log(1);
+        this.getConversations(this.currentUser._id)
+        console.log(2);
         document.body.classList.add("no-footer");
+
+        socket.on('sent', (answer) => {
+            console.log(answer)
+        })
     },
     beforeDestroy() {
         document.body.classList.remove("no-footer");

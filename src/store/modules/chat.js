@@ -7,7 +7,7 @@ const state = {
   error: '',
   contacts: null,
   contactsSearchResult: null,
-  conversations: null
+  conversations: []
 }
 
 const getters = {
@@ -48,7 +48,7 @@ const actions = {
     let searchObject = { "username": searchKey };
     if (searchKey.length > 0) {
       axios
-        .get(`${apiUrl}/users?filter=${ JSON.stringify(searchObject)}`, { headers: { Authorization: JSON.parse(localStorage.getItem('token'))} })
+        .get(`${apiUrl}/users?filter=${ JSON.stringify(searchObject)}`, { headers: { Authorization: localStorage.getItem('token')} })
         .then(r => r.data)
         .then(res => {
           if (res.meta.total) {
@@ -63,7 +63,7 @@ const actions = {
   },
   getContacts({ commit }, userId) {
     axios
-      .get(`${apiUrl}/users`, { headers: { Authorization: JSON.parse(localStorage.getItem('token'))} })
+      .get(`${apiUrl}/users`, { headers: { Authorization: localStorage.getItem('token')} })
       .then(r => r.data)
       .then(res => {
         if (res.meta.total) {
@@ -72,10 +72,11 @@ const actions = {
           commit('getContactsError', 'error:getContacts')
         }
       })
+      .catch(e => console.log(e))
   },
   getConversations({ commit }, userId) {
     axios
-      .get(`${apiUrl}/chats`, { headers: { Authorization: JSON.parse(localStorage.getItem('token'))} })
+      .get(`${apiUrl}/chats`, { headers: { Authorization: localStorage.getItem('token')} })
       .then(r => r.data)
       .then(res => {
         if (res.status) {
@@ -85,6 +86,7 @@ const actions = {
         }
       })
   }
+  
 }
 
 export default {
