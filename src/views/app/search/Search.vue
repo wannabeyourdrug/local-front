@@ -143,19 +143,17 @@
                     <b-card no-body class="overflow-hidden search-user-inner">
                         <b-row no-gutters>
                             <b-col md="2">
-                                <b-card-img src="https://picsum.photos/400/400/?image=20" class="search-img">
+                                <b-card-img :src="user.profile.picture" class="search-img">
                                 </b-card-img>
                             </b-col>
                             <b-col md="10">
                                 <b-card-body>
                                     <b-card-title>
-                                        <h3 class="search-name">{user.name}</h3><span class="search-age">Возраст:
-                                        {user.age}</span>
+                                        <h3 class="search-name">{{user.profile.anket.name}}</h3><span class="search-age">Возраст:
+                                        {{user.profile.anket.age}}</span>
                                     </b-card-title>
                                     <b-card-text>
-                                        This is a wider card with supporting text as a natural lead-in to additional
-                                        content.
-                                        This content is a little bit longer.
+                                       {{user.profile.info}}
                                     </b-card-text>
                                 </b-card-body>
                             </b-col>
@@ -195,7 +193,7 @@
             "post": Post
         },
         computed: {
-            ...mapGetters(['currentUser'])
+            ...mapGetters(['currentUser', 'users'])
         },
         data() {
             return {
@@ -222,7 +220,6 @@
                     eat: '',
                     music: '',
                 },
-                users: [],
             };
         },
         methods: {
@@ -238,7 +235,7 @@
                 }
 
                 this.searchUsers({
-                    search: searchArr,
+                    tags: searchArr,
                 });
             }
         },
