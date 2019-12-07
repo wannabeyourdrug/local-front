@@ -77,17 +77,17 @@
                             </b-colxx>
                             <b-colxx sm="6">
                                 <b-form-group :label="$t('forms.RhythmOfLife')">
-                                <b-form-input :disabled="isEditMode" v-model="currentUser.profile.anket.RhythmOfLife" ></b-form-input>
+                                <b-form-select :disabled="isEditMode" :options="['Интроверт', 'Экстраверт']"  v-model="currentUser.profile.anket.RhythmOfLife" plain  />
                                 </b-form-group>
                             </b-colxx>
                             <b-colxx sm="6">
                                 <b-form-group :label="$t('forms.hobbies')">
-                                <b-form-input :disabled="isEditMode" v-model="currentUser.profile.anket.hobbies" ></b-form-input>
+                                <b-form-select :disabled="isEditMode" :options="['Спорт', 'Музыкальные инструменты', 'Садоводство', 'Уход за животными', 'Танцы', 'Рыбалка', 'Автомобили', 'Рукоделие', 'Новинки техники', 'Путешествия', 'Чтение', 'Дизайн', 'Иностранные языки', 'Компьютерные игры']" v-model="currentUser.profile.anket.hobbies" />
                                 </b-form-group>
                             </b-colxx>
                             <b-colxx sm="6">
                                 <b-form-group :label="$t('forms.perfectTripForYou')">
-                                    <b-form-select :disabled="isEditMode" :options="['Моря-океаны (пляжный отдых)','Экскурсионный туризм', 'Шоппинг-туризм', 'Лечебный отдых', 'Экстремальный отдых (рафтинг, виндсерфинг, дайвинг, сафари).']"
+                                    <b-form-select :disabled="isEditMode" :options="['Моря-океаны (пляжный отдых)','Экскурсионный туризм', 'Шоппинг-туризм', 'Лечебный отдых', 'Экстремальный отдых (рафтинг, виндсерфинг, дайвинг).']"
                                          v-model="currentUser.profile.anket.perfectTripForYou" plain  />
                                 </b-form-group>
                             </b-colxx>
