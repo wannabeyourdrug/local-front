@@ -47,6 +47,7 @@ import ContactList from '../../../components/ChatApp/ContactList'
 import ConversationList from '../../../components/ChatApp/ConversationList'
 import ConversationDetail from '../../../components/ChatApp/ConversationDetail'
 import sendLetter from '../../../utils/chatUtils'
+import io from 'socket.io-client'
 
 
 export default {
@@ -108,7 +109,7 @@ export default {
             }
             
             this.conversationMessages.push(message)
-            sendLetter(message)
+            sendLetter(message, this.socket)
 
             this.message = ''
             //console.log(message)
@@ -133,7 +134,7 @@ export default {
         this.getConversations(this.currentUser.id)
         document.body.classList.add("no-footer");
         console.log("123");
-        
+
         socket.on('sent', (answer) => {
             console.log(answer)
         })
