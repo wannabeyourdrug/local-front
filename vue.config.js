@@ -12,7 +12,7 @@ module.exports = {
   devServer: {
     clientLogLevel: 'warning',
     hot: true,
-    contentBase: 'dist',
+    contentBase: '../backend/static',
     compress: true,
     open: true,
     overlay: { warnings: false, errors: true },

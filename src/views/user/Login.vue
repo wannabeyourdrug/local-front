@@ -10,7 +10,7 @@
 
                 <b-form @submit.prevent="formSubmit" class="av-tooltip tooltip-label-bottom">
                     <b-form-group :label="$t('user.username')" class="has-float-label mb-4">
-                        <b-form-input type="text" v-label="form.username" />
+                        <b-form-input type="text" v-model="form.username" />
                     </b-form-group>
 
                     <div class="d-flex justify-content-between align-items-center">
