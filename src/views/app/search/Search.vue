@@ -104,7 +104,7 @@
         </transition>
         <b-row class="search-result">
             <ul class="search-result-list">
-                <li class="search-user">
+                <!-- <li class="search-user">
                     <b-colxx sm="3">
                         <single-lightbox v-bind:thumb="currentUser.profile.picture"
                             v-bind:large="currentUser.profile.picture"
@@ -138,8 +138,8 @@
                             distinctio quae magnam eveniet dolorem quia. Sequi, fuga ab.</p>
 
                     </b-colxx>
-                </li>
-                <li>
+                </li> -->
+                <li v-for="(user, index) in users" :key="index">
                     <b-card no-body class="overflow-hidden search-user-inner">
                         <b-row no-gutters>
                             <b-col md="2">
@@ -150,7 +150,7 @@
                                 <b-card-body>
                                     <b-card-title>
                                         <h3 class="search-name">{user.name}</h3><span class="search-age">Возраст:
-                                            {user.age}</span>
+                                        {user.age}</span>
                                     </b-card-title>
                                     <b-card-text>
                                         This is a wider card with supporting text as a natural lead-in to additional
@@ -221,19 +221,31 @@
                     hobbies: '',
                     eat: '',
                     music: '',
-                }
+                },
+                users: [],
             };
         },
         methods: {
             ...mapActions(['searchUsers']),
             formSubmit() {
+                let searchThis = this.search;
+                let searchArr = [];
+
+                for (let key in searchThis) {
+                    if (searchThis[key] !== '') {
+                        searchArr.push(searchThis[key])
+                    }
+                }
+
                 this.searchUsers({
-                    search: this.search,
+                    search: searchArr,
                 });
             }
         },
         mounted() {}
     };
+
+
 </script>
 
 <style scouped>
