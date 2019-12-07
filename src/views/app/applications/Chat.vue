@@ -103,7 +103,9 @@ export default {
         this.socket = io('http://45.80.68.81:3000');
         this.socket.on('sent', (answer) => {
             let messageLetter = JSON.parse(answer.data.body).data[0];
-            this.conversationMessages.push(messageLetter);
+            if ([messageLetter.author, messageLetter.chatId].includes(this.currentUser._id)) {
+                this.conversationMessages.push(messageLetter);
+            }
         })
     },
     mounted() {
