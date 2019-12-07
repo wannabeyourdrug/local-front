@@ -47,9 +47,7 @@ import ContactList from '../../../components/ChatApp/ContactList'
 import ConversationList from '../../../components/ChatApp/ConversationList'
 import ConversationDetail from '../../../components/ChatApp/ConversationDetail'
 import sendLetter from '../../../utils/chatUtils'
-import io from 'socket.io-client'
 
-const socket = io('http://45.80.68.81:3000');
 
 export default {
     components: {
@@ -108,19 +106,24 @@ export default {
             if (!this.conversationMessages) {
                 this.conversationMessages = [];
             }
-
+            
             this.conversationMessages.push(message)
             sendLetter(message)
+
             this.message = ''
             //console.log(message)
 
         }
     },
     created(){
-        socket.on('connect', () => {
-            console.log("Socket");
+        this.socket = io('http://45.80.68.81:3000');
+        this.socket.on('connect', () => {
+            console.log("Connected");
         });
-        console.log("created")
+        console.log("created");
+        this.socket.on('sent', (answer) => {
+            console.log("answered");
+        })
     },
     mounted() {
         this.getContacts({
@@ -129,7 +132,8 @@ export default {
         })
         this.getConversations(this.currentUser.id)
         document.body.classList.add("no-footer");
-        console.log("123")
+        console.log("123");
+        
         socket.on('sent', (answer) => {
             console.log(answer)
         })

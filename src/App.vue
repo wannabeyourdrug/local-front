@@ -6,7 +6,7 @@
 
 <script>
 import ColorSwitcher from "./components/Common/ColorSwitcher";
-
+import io from 'socket.io-client';
 
 import {
     getDirection
@@ -18,6 +18,7 @@ export default {
         "color-switcher": ColorSwitcher
     },
     beforeMount() {
+        
         const direction = getDirection();
         if (direction.isRtl) {
             document.body.classList.add("rtl");
