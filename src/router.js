@@ -28,6 +28,11 @@ const routes = [
         ]
       },
       {
+        path: 'app/search',
+        component: () => import(/* webpackChunkName: "search" */ './views/app/search/Search'),
+        // redirect: '/app/search',
+      },
+      {
         path: 'app/single',
         component: () => import(/* webpackChunkName: "single" */ './views/app/single')
       },
