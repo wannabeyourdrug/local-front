@@ -7,6 +7,7 @@ export default {
   state: {
     currentUser: localStorage.getItem('user') != null ? JSON.parse(localStorage.getItem('user')) : null,
     searchUsers: localStorage.getItem('searchUsers') != null ? JSON.parse(localStorage.getItem('searchUsers')) : null,
+    searchUsers: null,
     loginError: null,
     processing: false,
     forgotMailSuccess:null,
@@ -80,13 +81,20 @@ export default {
     searchUsers({ commit }, payload) {
       const bodyRecord = {
         token: JSON.parse(localStorage.getItem('token')),
-        tags: ["3333", "33434"]
+        tags: payload.search,
       };
-      axios.post(apiUrl + '/users', bodyRecord, { headers: { Authorization: JSON.parse(localStorage.getItem('token'))}})
+      axios.post(apiUrl + '/users', bodyRecord)
         .then((response) => {
-          let users = response.data;
-          localStorage.setItem('searchUsers');
-          commit('setSearchUsers', JSON.stringify(response.data.data[0]))
+          let users =  [];
+          try {
+           users = response.data.data || [];
+          localStorage.setItem('searchUsers', JSON.stringify(users));
+          commit('setSearchUsers', JSON.stringify(users))
+          } catch(e) {
+            users = [];
+            localStorage.setItem('searchUsers', JSON.stringify(users));
+            commit('setSearchUsers', JSON.stringify(users))
+          }
         })
         .catch((e)=> {
           console.log(e);
