@@ -21,7 +21,8 @@ async function login(req, res) {
     const {
         username,
         action,
-        sbisToken
+        sbisToken,
+        profile
     } = req.body || {};
 
     
@@ -51,15 +52,53 @@ async function login(req, res) {
                     }
                     break;
                 case 'register':
-                    if (username) {
+                    if (username && profile) {
                         const user = await User.findOne({
                             username
                         });
                         if (!user) {
+
+                            const computedProfile = {
+                                anket: {}
+                            };
+                            const values = profile.d;
+                            const dataObjects = profile.s;
+                            const profileFields = [
+                              'Фото',
+                              'Имя',
+                              'Фамилия',
+                              'Отчество'
+                            ];
+                          
+                            let inProfileFields = -1;
+                            let iterIndex = 0;
+                            dataObjects.forEach(dataObject => {
+                              inProfileFields = profileFields.indexOf(dataObject.n);
+                              if (inProfileFields !== -1) {
+                                switch (profileFields[inProfileFields]) {
+                                  case 'Фото':
+                                    computedProfile.picture = dataObjects[iterIndex];
+                                    break;
+                                  case 'Имя':
+                                    computedProfile.anket.name = dataObjects[iterIndex];
+                                    break;
+                                  case 'Отчество':
+                                    computedProfile.anket.lastname = dataObjects[iterIndex];
+                                    break;
+                                  case 'Фамилия':
+                                    computedProfile.anket.family = dataObjects[iterIndex];
+                                    break;
+                                  default:
+                                    break;
+                                }
+                              }
+                              iterIndex = iterIndex + 1;
+                            });
+
                             const newUser = new User({
                                 username,
                                 tags: [],
-                                profile: {},
+                                profile: computedProfile,
                                 scores: {}
                             });
                             await newUser.save();
