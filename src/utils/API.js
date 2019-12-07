@@ -16,7 +16,7 @@ const token = '';
 export default async function api(method, model, data) {
     return new Promise((resolve, reject) => {
         let req = {
-            uri: '/api/' + model,
+            uri: 'http://127.0.0.1:80/api/' + model,
             method,
             headers: {
                 'Content-Type': 'application/json',
