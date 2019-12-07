@@ -1,5 +1,7 @@
 import axios from 'axios'
-import { apiUrl } from '../../constants/config'
+import {
+  apiUrl
+} from '../../constants/config'
 
 const state = {
   isLoadContacts: false,
@@ -15,9 +17,7 @@ const getters = {
   isLoadConversations: state => state.isLoadConversations,
   error: state => state.error,
   contacts: state => state.contacts,
-  conversations: state => state.conversations,
   contactsSearchResult: state => state.contactsSearchResult
-
 }
 
 const mutations = {
@@ -32,61 +32,71 @@ const mutations = {
   getContactsError(state, error) {
     state.isLoadContacts = false
     state.error = error
-  },
-  getConversationsSuccess(state, payload) {
-    state.isLoadConversations = true
-    state.conversations = payload.conversations
-  },
-  getConversationsError(state, error) {
-    state.isLoadConversations = false
-    state.error = error
   }
 }
 
 const actions = {
-  searchContacts({ commit, state }, { userId, searchKey }) {
-    let searchObject = { "username": searchKey };
+  searchContacts({
+    commit,
+    state
+  }, {
+    userId,
+    searchKey
+  }) {
+    let searchObject = {
+      "username": searchKey
+    };
     if (searchKey.length > 0) {
       axios
-        .get(`${apiUrl}/users?filter=${ JSON.stringify(searchObject)}`, { headers: { Authorization: localStorage.getItem('token')} })
+        .get(`${apiUrl}/users?filter=${ JSON.stringify(searchObject)}`, {
+          headers: {
+            Authorization: localStorage.getItem('token')
+          }
+        })
         .then(r => r.data)
         .then(res => {
           if (res.meta.total) {
-            commit('getContactsSearchSuccess', { contacts: res.data, userId: userId })
+            commit('getContactsSearchSuccess', {
+              contacts: res.data,
+              userId: userId
+            })
           } else {
             commit('getContactsError', 'error:getContacts')
           }
         })
     } else {
-      commit('getContactsSearchSuccess', { contacts: state.contacts, userId: userId })
+      commit('getContactsSearchSuccess', {
+        contacts: state.contacts,
+        userId: userId
+      })
     }
   },
-  getContacts({ commit }, userId) {
+  getContacts({
+    commit
+  }, {
+    userId
+  }) {
     axios
-      .get(`${apiUrl}/users`, { headers: { Authorization: localStorage.getItem('token')} })
+      .get(`${apiUrl}/users`, {
+        headers: {
+          Authorization: localStorage.getItem('token')
+        }
+      })
       .then(r => r.data)
       .then(res => {
+        res.data = res.data.filter(_ => _._id !== userId);
         if (res.meta.total) {
-          commit('getContactsSuccess', { contacts: res.data, userId: userId })
+          commit('getContactsSuccess', {
+            contacts: res.data,
+            userId: userId
+          })
         } else {
           commit('getContactsError', 'error:getContacts')
         }
       })
       .catch(e => console.log(e))
-  },
-  getConversations({ commit }, userId) {
-    axios
-      .get(`${apiUrl}/chats`, { headers: { Authorization: localStorage.getItem('token')} })
-      .then(r => r.data)
-      .then(res => {
-        if (res.status) {
-          commit('getConversationsSuccess', { conversations: res.data, userId: userId })
-        } else {
-          commit('getConversationsError', 'error:getConversations')
-        }
-      })
   }
-  
+
 }
 
 export default {
