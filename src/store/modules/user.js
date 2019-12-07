@@ -6,12 +6,14 @@ import { currentUser, apiUrl } from '../../constants/config'
 export default {
   state: {
     currentUser: localStorage.getItem('user') != null ? JSON.parse(localStorage.getItem('user')) : null,
+    searchUsers: localStorage.getItem('searchUsers') != null ? JSON.parse(localStorage.getItem('searchUsers')) : null,
     loginError: null,
     processing: false,
     forgotMailSuccess:null,
     resetPasswordSuccess:null
   },
   getters: {
+    searchUsers: state => state.searchUsers,
     currentUser: state => state.currentUser,
     processing: state => state.processing,
     loginError: state => state.loginError,
@@ -19,6 +21,11 @@ export default {
     resetPasswordSuccess:state => state.resetPasswordSuccess,
   },
   mutations: {
+    setSearchUsers(state, payload) {
+      state.searchUsers = payload
+      state.processing = false
+      state.loginError = null
+    },
     setUser(state, payload) {
       state.currentUser = payload
       state.processing = false
@@ -68,11 +75,27 @@ export default {
         })
     },
 
+    searchUsers({ commit }, payload) {
+      const bodyRecord = {
+        token: JSON.parse(localStorage.getItem('token')),
+        tags: ["3333", "33434"]
+      };
+      axios.post(apiUrl + '/users', bodyRecord, { headers: { Authorization: JSON.parse(localStorage.getItem('token'))}})
+        .then((response) => {
+          let users = response.data;
+          localStorage.setItem('searchUsers');
+          commit('setSearchUsers', JSON.stringify(response.data.data[0]))
+        })
+        .catch((e)=> {
+          console.log(e);
+        })
+    },
+    
     signOut({ commit }) {
       axios.post(apiUrl + '/logout',  { headers: { Authorization: JSON.parse(localStorage.getItem('token'))} })
         .then(() => {
           localStorage.removeItem('user')
-          commit('setLogout')
+          setSearchUsers()
         })
     },
 

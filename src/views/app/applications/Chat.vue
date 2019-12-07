@@ -140,10 +140,6 @@ export default {
         this.getConversations(this.currentUser._id)
         console.log(2);
         document.body.classList.add("no-footer");
-
-        socket.on('sent', (answer) => {
-            console.log(answer)
-        })
     },
     beforeDestroy() {
         document.body.classList.remove("no-footer");
