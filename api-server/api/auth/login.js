@@ -77,16 +77,16 @@ async function login(req, res) {
                               if (inProfileFields !== -1) {
                                 switch (profileFields[inProfileFields]) {
                                   case 'Фото':
-                                    computedProfile.picture = dataObjects[iterIndex];
+                                    computedProfile.picture = values[iterIndex];
                                     break;
                                   case 'Имя':
-                                    computedProfile.anket.name = dataObjects[iterIndex];
+                                    computedProfile.anket.name = values[iterIndex];
                                     break;
                                   case 'Отчество':
-                                    computedProfile.anket.lastname = dataObjects[iterIndex];
+                                    computedProfile.anket.lastname = values[iterIndex];
                                     break;
                                   case 'Фамилия':
-                                    computedProfile.anket.family = dataObjects[iterIndex];
+                                    computedProfile.anket.family = values[iterIndex];
                                     break;
                                   default:
                                     break;
