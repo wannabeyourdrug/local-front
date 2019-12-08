@@ -1,8 +1,6 @@
-import axios from 'axios';
-
 export default (to, from, next) => {
 
-  if (!!to.hash) {
+  if (!!to.hash && to.hash[0] !== '/') {
     localStorage.setItem('sbisToken', to.hash.split('=')[1]);
     
     window.close();
