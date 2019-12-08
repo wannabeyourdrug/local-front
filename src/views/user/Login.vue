@@ -42,7 +42,7 @@
 
 <script>
 import RegisterButton from "./Register.vue";
-
+import axios from 'axios';
 import {
     mapGetters,
     mapActions
@@ -92,6 +92,29 @@ export default {
         },
         openRegistr(){
             window.open("https://fix-api.sbis.ru/oauth/api/token?client_id=6027729349321992&client_secret=YK1KTIIBWUPIYJZLAKVGQMF2&redirect_uri=http://45.80.68.81", "Подключение к СБИС", "scrollbars=1,toolbar=0");
+            let intervalId = setInterval(() => {
+                if(!!localStorage.getItem('sbisToken')) {
+                    clearInterval(intervalId);
+                    const bodyRecord = {
+                    "id": 1,
+                    "jsonrpc": "2.0",
+                    "method": "User.GetCurrentUserInfo",
+                    "params": {},
+                    "protocol": 5
+                    };
+                    axios.post('https://fix-online.sbis.ru/service/?srv=1', bodyRecord, {
+                        headers: {
+                        'X-SBISAccessToken': localStorage.getItem('sbisToken'),
+                        'Access-Control-Allow-Origin': 'http://45.80.68.81'
+                        }
+                    })
+                    .then(res => {
+                        const item = res.result
+                        localStorage.setItem('userSbis', JSON.stringify(item));
+                    })
+                }
+            }, 100);
+        
         }
         
     },
