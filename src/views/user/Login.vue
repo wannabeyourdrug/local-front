@@ -85,7 +85,7 @@ export default {
            // if (!this.$v.form.$anyError) {
             this.login({
                 username: this.form.username,
-                sbisToken: '007',
+                sbisToken: localStorage.getItem('token'),
                 action: "login"
             });
             //}
