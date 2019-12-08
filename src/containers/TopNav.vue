@@ -42,7 +42,8 @@
                 <template slot="button-content">
                     <span class="name mr-1">{{currentUser.profile.anket.name}}</span>
                     <span>
-                        <img :alt="currentUser.profile.anket.name" :src="currentUser.profile.picture" />
+                        <img v-if="currentUser.profile.picture" :alt="currentUser.profile.anket.name" :src="currentUser.profile.picture" />
+                        <img v-else :alt="currentUser.profile.anket.name" src="../assets/img/default_picture.jpg" />
                     </span>
                 </template>
                 <b-dropdown-item @click="goToProfile">Профиль</b-dropdown-item>

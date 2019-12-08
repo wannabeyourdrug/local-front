@@ -43,6 +43,41 @@
                 <b-card class="mb-4" :title="$t('anket.title')">
                 <b-form >
                 <b-row>
+                    <b-colxx xxs="12" class="mb-5">
+                        <b-card>
+                            <img width="100%" src="/assets/img/profile-title-img.jpg" alt="title">
+                        </b-card>
+                    </b-colxx>
+                    <b-colxx xxs="12" lg="5" xl="4" class="col-left">
+                        <single-lightbox v-if="currentUser.profile.picture" v-bind:thumb="currentUser.profile.picture" v-bind:large="currentUser.profile.picture" class-name="img-thumbnail card-img social-profile-img" />
+                        <single-lightbox v-else thumb="../../../assets/img/default_picture.jpg" large="../../../assets/img/default_picture.jpg" class-name="img-thumbnail card-img social-profile-img" />
+                        <b-card class="mb-4" no-body>
+                            <b-card-body>
+                                <div class="text-center pt-4">
+                                    <p class="list-item-heading pt-2">{{currentUser.profile.anket.name}}</p>
+                                </div>
+                                <p class="mb-3">
+                                    {{currentUser.profile.info}}
+                                </p>
+                                <p class="text-muted text-small mb-2">{{$t('pages.location')}}</p>
+                                <p class="mb-3">{{currentUser.profile.anket.city}}</p>
+                                
+                                <p class="text-muted text-small mb-2">{{$t('menu.contact')}}</p>
+                                <div class="social-icons">
+                                    <ul class="list-unstyled list-inline">
+                                        <li class="list-inline-item">
+                                            <router-link to="#"><i class="simple-icon-social-facebook"></i></router-link>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <router-link to="#"><i class="simple-icon-social-twitter"></i></router-link>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <router-link to="#"><i class="simple-icon-social-instagram"></i></router-link>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </b-card-body>
+                        </b-card>
 
                     <b-colxx sm="6">
                         <b-form-group :label="$t('forms.name')">
@@ -163,6 +198,7 @@ import UserFollow from "../../../components/Cards/UserFollow";
 import RecentPost from "../../../components/Common/RecentPost";
 import UserCardBasic from "../../../components/Cards/UserCardBasic";
 import Post from "../../../components/Cards/Post";
+import {default_picture} from "../../../constants/config";
 
 import produtcs from "../../../data/products";
 import recentPosts from "../../../data/recentPosts";
@@ -188,7 +224,8 @@ export default {
             followers: followers.slice(0, 5),
             friends: followers.slice(0),
             posts,
-            isEditMode: true
+            isEditMode: true,
+
         };
     },
     methods: {

@@ -20,6 +20,7 @@ export const currentUser = {
   img: '/assets/img/profile-pic-l.jpg',
   date: 'Last seen today 15:24'
 }
+export const default_picture = '../assets/img/default_picture.jpg'
 
 export const isDemo = false
 export const themeRadiusStorageKey = 'theme_radius'

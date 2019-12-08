@@ -108,7 +108,9 @@
                     <b-card no-body class="overflow-hidden search-user-inner">
                         <b-row no-gutters>
                             <b-col md="2">
-                                <b-card-img :src="user.profile.picture" class="search-img">
+                                <b-card-img v-if="user.profile.picture" :src="user.profile.picture" class="search-img">
+                                </b-card-img>
+                                <b-card-img v-else src="../../../assets/img/default_picture.jpg" class="search-img">
                                 </b-card-img>
                             </b-col>
                             <b-col md="10">
