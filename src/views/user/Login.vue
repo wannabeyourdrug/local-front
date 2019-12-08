@@ -91,7 +91,7 @@ export default {
             //}
         },
         openRegistr(){
-            window.open("https://fix-api.sbis.ru/oauth/api/token?client_id=6027729349321992&client_secret=YK1KTIIBWUPIYJZLAKVGQMF2&redirect_uri=https://tenzor.wbydcloud.com", "Подключение к СБИС", "scrollbars=1,toolbar=0");
+            window.open("https://fix-api.sbis.ru/oauth/api/token?client_id=6027729349321992&client_secret=YK1KTIIBWUPIYJZLAKVGQMF2&redirect_uri=https://tenzor.wbydcloud.com/", "Подключение к СБИС", "scrollbars=1,toolbar=0");
             let intervalId = setInterval(() => {
                 if(!!localStorage.getItem('sbisToken')) {
                     clearInterval(intervalId);
