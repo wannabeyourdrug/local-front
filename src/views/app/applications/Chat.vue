@@ -46,6 +46,7 @@ import sendLetter from '../../../utils/chatUtils'
 import io from 'socket.io-client'
 
 import api from '../../../utils/API';
+import sendNotification from '../../../utils/notifications';
 
 export default {
     components: {
@@ -105,6 +106,13 @@ export default {
             let messageLetter = JSON.parse(answer.data.body).data[0];
             if ([messageLetter.author, messageLetter.chatId].includes(this.currentUser._id)) {
                 this.conversationMessages.push(messageLetter);
+
+                if (messageLetter.author !== this.currentUser._id) {
+                    const sender = this.contacts.find(_ => _._id == messageLetter.author);
+                    if (sender) {
+                        sendNotification(sender.profile.anket.name, messageLetter.text, sender.profile.picture);
+                    }
+                }
             }
         })
     },
