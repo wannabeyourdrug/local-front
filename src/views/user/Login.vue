@@ -91,27 +91,19 @@ export default {
             //}
         },
         openRegistr(){
-            window.open("https://fix-api.sbis.ru/oauth/api/token?client_id=6027729349321992&client_secret=YK1KTIIBWUPIYJZLAKVGQMF2&redirect_uri=https://tenzor.wbydcloud.com/", "Подключение к СБИС", "scrollbars=1,toolbar=0");
-            let intervalId = setInterval(() => {
+            window.open("https://fix-api.sbis.ru/oauth/api/token?client_id=6027729349321992&client_secret=YK1KTIIBWUPIYJZLAKVGQMF2&redirect_uri=http://45.80.68.81", "Подключение к СБИС", "scrollbars=1,toolbar=0");
+            let intervalId = setInterval(async () => {
                 if(!!localStorage.getItem('sbisToken')) {
                     clearInterval(intervalId);
-                    const bodyRecord = {
-                    "id": 1,
-                    "jsonrpc": "2.0",
-                    "method": "User.GetCurrentUserInfo",
-                    "params": {},
-                    "protocol": 5
-                    };
-                    axios.post('https://fix-online.sbis.ru/service/?srv=1', bodyRecord, {
+                    
+                    let item = await (await fetch('http://45.80.68.81:5000/', {
+                        method: 'POST',
                         headers: {
-                        'X-SBISAccessToken': localStorage.getItem('sbisToken'),
-                        'Access-Control-Allow-Origin': 'https://tenzor.wbydcloud.com'
+                            'sbisToken': localStorage.getItem('sbisToken')
                         }
-                    })
-                    .then(res => {
-                        const item = res.result
-                        localStorage.setItem('userSbis', JSON.stringify(item));
-                    })
+                    })).json();
+                    
+                    localStorage.setItem('userSbis', JSON.stringify(item));
                 }
             }, 100);
         
