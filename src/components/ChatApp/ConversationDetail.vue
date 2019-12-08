@@ -2,9 +2,14 @@
   <div>
     <div class="d-flex flex-row chat-heading">
       <div class="d-flex">
-        <img
+        <img v-if="otherUser.profile.picture"
           :alt="otherUser.profile.anket.name"
           :src="otherUser.profile.picture"
+          class="img-thumbnail border-0 rounded-circle ml-0 mr-4 list-thumbnail align-self-center small"
+        />
+        <img v-else
+          :alt="otherUser.profile.anket.name"
+          src="../../assets/img/default_picture.jpg"
           class="img-thumbnail border-0 rounded-circle ml-0 mr-4 list-thumbnail align-self-center small"
         />
       </div>
@@ -46,9 +51,14 @@
               class="d-flex flex-row pb-1"
               v-if="message.author === currentUser._id"
             >
-              <img
+              <img v-if="currentUser.profile.picture"
                 :alt="currentUser.profile.anket.name"
                 :src="currentUser.profile.picture"
+                class="img-thumbnail border-0 rounded-circle mr-3 list-thumbnail align-self-center xsmall"
+              />
+              <img v-else
+                :alt="currentUser.profile.anket.name"
+                src="../../assets/img/default_picture.jpg"
                 class="img-thumbnail border-0 rounded-circle mr-3 list-thumbnail align-self-center xsmall"
               />
               <div class="d-flex flex-grow-1 min-width-zero">
@@ -64,9 +74,14 @@
               </div>
             </div>
             <div class="d-flex flex-row pb-1" v-else>
-              <img
+              <img v-if="otherUser.profile.picture"
                 :alt="otherUser.profile.anket.name"
                 :src="otherUser.profile.picture"
+                class="img-thumbnail border-0 rounded-circle mr-3 list-thumbnail align-self-center xsmall"
+              />
+              <img v-else
+                :alt="otherUser.profile.anket.name"
+                src="../../assets/img/default_picture.jpg"
                 class="img-thumbnail border-0 rounded-circle mr-3 list-thumbnail align-self-center xsmall"
               />
               <div class="d-flex flex-grow-1 min-width-zero">
