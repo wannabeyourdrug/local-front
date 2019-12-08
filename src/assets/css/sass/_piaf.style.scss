@@ -9544,10 +9544,22 @@ footer.page-footer {
     top: 0;
     bottom: 0;
     margin: auto;
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
   }
   
+  .textM{
+    text-align: center;
+    font-family: 'Dosis';
+    transform: translateY(50px);
+    margin-top: 25px;
+    font-size: 25px;
+    font-weight: 100;
+    color: #ff8f26;
+    opacity: 0;
+    animation: text .5s 2s ease forwards;
+  }
+
   $outer:#ff8f26;
   $inner:#873f0b;
   .logoVue {
@@ -9599,4 +9611,6 @@ footer.page-footer {
       opacity: 1;
     } 
   }
+
+
 }
