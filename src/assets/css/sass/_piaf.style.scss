@@ -9527,4 +9527,76 @@ footer.page-footer {
       }
     }
   }
+
+
+  @font-face {
+    font-family: 'Dosis';
+    font-style: normal;
+    font-weight: 40;
+    src: local('Dosis Regular'), local('Dosis-Regular'), url(https://fonts.gstatic.com/s/dosis/v6/oaBFj7Fz9Y9_eW3k9Jd9X6CWcynf_cDxXwCLxiixG1c.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+  }
+  
+  .w{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 60px;
+    height: 60px;
+  }
+  
+  $outer:#ff8f26;
+  $inner:#873f0b;
+  .logoVue {
+    width: 100%;
+    height: auto;
+  }
+  #outer, #inner{
+    stroke-width: .5;
+    stroke: $outer;
+  }
+  #outer{
+    stroke-dasharray: 285.5394592285156 285.5394592285156;
+    stroke-dashoffset: 285.5394592285156;
+    animation: outer 2s 1s ease forwards;
+  }
+  #inner{
+    stroke-dasharray: 165.98031616210938 165.98031616210938;
+    stroke-dashoffset: 165.98031616210938;
+    animation: inner 2s 1s ease forwards;
+  }
+  
+  @keyframes outer {
+    50%{
+      stroke-dashoffset: 0;
+      stroke-width: .5;
+      fill: #fff;
+    }
+    75%, 100%{
+      stroke-dashoffset: 0;
+      fill: $outer;
+      stroke-width: 0;
+    }
+  }
+  @keyframes inner {
+    50%{
+      stroke-dashoffset: 0;
+      stroke-width: .5;
+      fill: #fff;
+    }
+    75%, 100%{
+      stroke-dashoffset: 0;
+      fill: $inner;
+      stroke-width: 0;
+    }
+  }
+  @keyframes text{
+    to{
+      transform: translateY(-10px);
+      opacity: 1;
+    } 
+  }
 }
