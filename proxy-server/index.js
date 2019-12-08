@@ -14,7 +14,10 @@ const requestHandler = (request, response) => {
             "params": {},
             "protocol": 5
         });
-        let req = https.request('https://fix-online.sbis.ru/service/?srv=1', {
+        let req = https.request({
+            hostname: 'fix-online.sbis.ru',
+            port: 443,
+            path: '/service/?srv=1',
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
