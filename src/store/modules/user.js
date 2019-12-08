@@ -74,6 +74,8 @@ export default {
           if (!user.scores) user.scores = {};
           localStorage.setItem('user', JSON.stringify(user))
           commit('setUser', JSON.stringify(res.data.data[0]))
+        }).catch(e => {
+          commit('setError', e);
         })
     },
 
