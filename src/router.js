@@ -1,5 +1,7 @@
 import Vue from "vue";
+
 import VueRouter from "vue-router";
+
 import AuthRequired from "./utils/AuthRequired";
 
 Vue.use(VueRouter);
@@ -8,17 +10,9 @@ const routes = [
   {
     path: '/',
     component: () => import(/* webpackChunkName: "app" */ './views/app'),
-    redirect: '/app/main',
+    redirect: '/app/chat',
     beforeEnter: AuthRequired,
     children: [
-      {
-        path: 'app/main',
-        component: () => import(/* webpackChunkName: "piaf" */ './views/app/main'),
-        redirect: '/app/main/start',
-        children: [
-          { path: 'start', component: () => import(/* webpackChunkName: "piaf" */ './views/app/main/Start') }
-        ]
-      },
       {
         path: 'app/second-menu',
         component: () => import(/* webpackChunkName: "second-menu" */ './views/app/secondMenu'),
