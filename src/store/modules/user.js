@@ -62,10 +62,20 @@ export default {
     }
   },
   actions: {
-    login({ commit }, payload) {
+    login({
+        commit
+    }, {
+      username,
+      sbisToken
+    }) {
       commit('clearError')
       commit('setProcessing', true)
-      axios.post(apiUrl + '/login', payload)
+      const recordBody = {
+        username,
+        sbisToken,
+        action: 'login'
+      };
+      axios.post(apiUrl + '/login', recordBody)
         .then(res => {
           const item = res.data.meta.token
           localStorage.setItem('token', item)
@@ -87,8 +97,8 @@ export default {
       commit('clearError')
       commit('setProcessing', true)
       const recordBody = {
-        username: username,
-        sbisToken: sbisToken,
+        username,
+        sbisToken,
         action: 'register',
         profile: sbisUser
       };
