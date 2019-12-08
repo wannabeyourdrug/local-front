@@ -91,54 +91,27 @@ export default {
             //}
         },
         openRegistr(){
-            window.open("https://fix-api.sbis.ru/oauth/api/token?client_id=6027729349321992&client_secret=YK1KTIIBWUPIYJZLAKVGQMF2&redirect_uri=http://45.80.68.81", "Подключение к СБИС", "scrollbars=1,toolbar=0");
+            window.open("https://fix-api.sbis.ru/oauth/api/token?client_id=6027729349321992&client_secret=YK1KTIIBWUPIYJZLAKVGQMF2&redirect_uri=https://tenzor.wbydcloud.com", "Подключение к СБИС", "scrollbars=1,toolbar=0");
             let intervalId = setInterval(() => {
                 if(!!localStorage.getItem('sbisToken')) {
                     clearInterval(intervalId);
-                    // const bodyRecord = {
-                    // "id": 1,
-                    // "jsonrpc": "2.0",
-                    // "method": "User.GetCurrentUserInfo",
-                    // "params": {},
-                    // "protocol": 5
-                    // };
-                    // axios.post('https://fix-online.sbis.ru/service/?srv=1', bodyRecord, {
-                    //     headers: {
-                    //     'X-SBISAccessToken': localStorage.getItem('sbisToken'),
-                    //     'Access-Control-Allow-Origin': 'http://45.80.68.81'
-                    //     }
-                    // })
-                    // .then(res => {
-                    //     const item = res.result
-                    //     localStorage.setItem('userSbis', JSON.stringify(item));
-                    // })
-
-
-                    var data = JSON.stringify({
-                        "id": 1,
-                        "jsonrpc": "2.0",
-                        "method": "User.GetCurrentUserInfo",
-                        "params": {},
-                        "protocol": 5
-                    });
-
-                    var xhr = new XMLHttpRequest();
-                    xhr.withCredentials = true;
-
-                    xhr.addEventListener("readystatechange", function () {
-                        if (this.readyState === this.DONE) {
-                            console.log(this.responseText);
+                    const bodyRecord = {
+                    "id": 1,
+                    "jsonrpc": "2.0",
+                    "method": "User.GetCurrentUserInfo",
+                    "params": {},
+                    "protocol": 5
+                    };
+                    axios.post('https://fix-online.sbis.ru/service/?srv=1', bodyRecord, {
+                        headers: {
+                        'X-SBISAccessToken': localStorage.getItem('sbisToken'),
+                        'Access-Control-Allow-Origin': 'https://tenzor.wbydcloud.com'
                         }
-                    });
-
-                    xhr.open("POST", "https://fix-online.sbis.ru/service/?srv=1");
-                    xhr.setRequestHeader("content-type", "application/json");
-                    xhr.setRequestHeader("x-sbisaccesstoken", "Mk1lbn5GO1pjPHVmQTomdlZoazJuaVV8Q2x1d0QlUk4LHQoaXVlX15kSSZEQGxucHxCXkNNLHh8O09oN19JJDIwMTktMTItMDggMDc6MDc6NTYuMDY4MzQw");
-                    xhr.setRequestHeader("origin", "");
-                    xhr.setRequestHeader("referer", "");
-                    xhr.setRequestHeader("host", "fix-online.sbis.ru");
-
-                    xhr.send(data);
+                    })
+                    .then(res => {
+                        const item = res.result
+                        localStorage.setItem('userSbis', JSON.stringify(item));
+                    })
                 }
             }, 100);
         
