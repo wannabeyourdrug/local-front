@@ -79,6 +79,29 @@ export default {
         })
     },
 
+    register({ commit }, payload){
+      commit('clearError')
+      commit('setProcessing', true)
+      const recordBody = {
+        username: payload.username,
+        sbisToken: payload.sbisToken,
+        action: 'register',
+        profile: JSON.parse(localStorage.getItem('sbisUser')).result
+      };
+      axios.post(apiUrl + '/login', recordBody)
+        .then(res => {
+          const item = res.data.meta.token
+          localStorage.setItem('token', item)
+          const user = res.data.data[0];
+          if (!user.profile) user.profile = {};
+          if (!user.scores) user.scores = {};
+          localStorage.setItem('user', JSON.stringify(user))
+          commit('setUser', JSON.stringify(res.data.data[0]))
+        }).catch(e => {
+          commit('setError', e);
+        })
+    },
+
     searchUsers({ commit }, payload) {
 
       axios
