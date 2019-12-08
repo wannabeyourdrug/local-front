@@ -10,7 +10,8 @@
                         </b-card>
                     </b-colxx>
                     <b-colxx xxs="12" lg="5" xl="4" class="col-left">
-                        <single-lightbox v-bind:thumb="currentUser.profile.picture" v-bind:large="currentUser.profile.picture" class-name="img-thumbnail card-img social-profile-img" />
+                        <single-lightbox v-if="currentUser.profile.picture" v-bind:thumb="currentUser.profile.picture" v-bind:large="currentUser.profile.picture" class-name="img-thumbnail card-img social-profile-img" />
+                        <single-lightbox v-else thumb="../../../assets/img/default_picture.jpg" large="../../../assets/img/default_picture.jpg" class-name="img-thumbnail card-img social-profile-img" />
                         <b-card class="mb-4" no-body>
                             <b-card-body>
                                 <div class="text-center pt-4">
@@ -164,6 +165,7 @@ import UserFollow from "../../../components/Cards/UserFollow";
 import RecentPost from "../../../components/Common/RecentPost";
 import UserCardBasic from "../../../components/Cards/UserCardBasic";
 import Post from "../../../components/Cards/Post";
+import {default_picture} from "../../../constants/config";
 
 import produtcs from "../../../data/products";
 import recentPosts from "../../../data/recentPosts";
@@ -189,7 +191,8 @@ export default {
             followers: followers.slice(0, 5),
             friends: followers.slice(0),
             posts,
-            isEditMode: true
+            isEditMode: true,
+
         };
     },
     methods: {
