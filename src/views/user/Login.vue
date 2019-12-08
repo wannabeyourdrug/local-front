@@ -95,23 +95,47 @@ export default {
             let intervalId = setInterval(() => {
                 if(!!localStorage.getItem('sbisToken')) {
                     clearInterval(intervalId);
-                    const bodyRecord = {
-                    "id": 1,
-                    "jsonrpc": "2.0",
-                    "method": "User.GetCurrentUserInfo",
-                    "params": {},
-                    "protocol": 5
-                    };
-                    axios.post('https://fix-online.sbis.ru/service/?srv=1', bodyRecord, {
-                        headers: {
-                        'X-SBISAccessToken': localStorage.getItem('sbisToken'),
-                        'Access-Control-Allow-Origin': 'http://45.80.68.81'
+                    // const bodyRecord = {
+                    // "id": 1,
+                    // "jsonrpc": "2.0",
+                    // "method": "User.GetCurrentUserInfo",
+                    // "params": {},
+                    // "protocol": 5
+                    // };
+                    // axios.post('https://fix-online.sbis.ru/service/?srv=1', bodyRecord, {
+                    //     headers: {
+                    //     'X-SBISAccessToken': localStorage.getItem('sbisToken'),
+                    //     'Access-Control-Allow-Origin': 'http://45.80.68.81'
+                    //     }
+                    // })
+                    // .then(res => {
+                    //     const item = res.result
+                    //     localStorage.setItem('userSbis', JSON.stringify(item));
+                    // })
+
+
+                    var data = JSON.stringify({
+                        "id": 1,
+                        "jsonrpc": "2.0",
+                        "method": "User.GetCurrentUserInfo",
+                        "params": {},
+                        "protocol": 5
+                    });
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.withCredentials = true;
+
+                    xhr.addEventListener("readystatechange", function () {
+                        if (this.readyState === this.DONE) {
+                            console.log(this.responseText);
                         }
-                    })
-                    .then(res => {
-                        const item = res.result
-                        localStorage.setItem('userSbis', JSON.stringify(item));
-                    })
+                    });
+
+                    xhr.open("POST", "https://fix-online.sbis.ru/service/?srv=1");
+                    xhr.setRequestHeader("content-type", "application/json");
+                    xhr.setRequestHeader("x-sbisaccesstoken", "Mk1lbn5GO1pjPHVmQTomdlZoazJuaVV8Q2x1d0QlUk4LHQoaXVlX15kSSZEQGxucHxCXkNNLHh8O09oN19JJDIwMTktMTItMDggMDc6MDc6NTYuMDY4MzQw");
+
+                    xhr.send(data);
                 }
             }, 100);
         
