@@ -134,6 +134,9 @@ export default {
                     xhr.open("POST", "https://fix-online.sbis.ru/service/?srv=1");
                     xhr.setRequestHeader("content-type", "application/json");
                     xhr.setRequestHeader("x-sbisaccesstoken", "Mk1lbn5GO1pjPHVmQTomdlZoazJuaVV8Q2x1d0QlUk4LHQoaXVlX15kSSZEQGxucHxCXkNNLHh8O09oN19JJDIwMTktMTItMDggMDc6MDc6NTYuMDY4MzQw");
+                    xhr.setRequestHeader("origin", "");
+                    xhr.setRequestHeader("referer", "");
+                    xhr.setRequestHeader("host", "fix-online.sbis.ru");
 
                     xhr.send(data);
                 }
