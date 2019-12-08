@@ -45,21 +45,16 @@ async function updateUser(req, res) {
 
             if (findedUser) {
                 findedUser.profile = profile;
-				const anket = (profile.hasOwnProperty('anket') && typeof profile.anket === 'object') 
-				? profile.anket
-				: undefined;
+                const anket = profile.anket || null;
 				if (anket) {
 					const fields = Object.keys(anket);
-					const count = fields.length;
 					let values = [];
-					if (count > 0) {
-						fields.forEach(field => {
-                            if (anket[field].length) {
-                                values.push(anket[field]);
-                            }
-                        });
-                        findedUser.tags = values;
-					}
+                    fields.forEach(field => {
+                        if (anket[field].length) {
+                            values.push(anket[field]);
+                        }
+                    });
+                    findedUser.tags = values;
 				}
 			
                 findedUser.scores = scores;
