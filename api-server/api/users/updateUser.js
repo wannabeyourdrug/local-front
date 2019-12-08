@@ -58,12 +58,7 @@ async function updateUser(req, res) {
                                 values.push(anket[field]);
                             }
                         });
-						if (findedUser.tags && findedUser.tags.length && values.length) {
-							findedUser.tags.concat(values);
-						}
-						if (!findedUser.tags || findedUser.tags.length === 0) {
-							findedUser.tags = values;
-						}
+                        findedUser.tags = values;
 					}
 				}
 			
