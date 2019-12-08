@@ -78,15 +78,14 @@ export default {
         ...mapGetters(["currentUser", "processing", "loginError"])
     },
     methods: {
-        ...mapActions(["login"]),
+        ...mapActions(["login", "register"]),
         formSubmit() {
             this.$v.$touch();
             this.$v.form.$touch();
            // if (!this.$v.form.$anyError) {
-            this.login({
+            this.register({
                 username: this.form.username,
-                sbisToken: localStorage.getItem('sbisToken'),
-                action: "login"
+                sbisToken: localStorage.getItem('sbisToken')
             });
             //}
         },
