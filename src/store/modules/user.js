@@ -79,14 +79,18 @@ export default {
         })
     },
 
-    register({ commit }, payload){
+    register({ commit }, {
+      username,
+      sbisToken,
+      sbisUser
+    }){
       commit('clearError')
       commit('setProcessing', true)
       const recordBody = {
-        username: payload.username,
-        sbisToken: payload.sbisToken,
+        username: username,
+        sbisToken: sbisToken,
         action: 'register',
-        profile: JSON.parse(localStorage.getItem('sbisUser')).result
+        profile: sbisUser
       };
       axios.post(apiUrl + '/login', recordBody)
         .then(res => {

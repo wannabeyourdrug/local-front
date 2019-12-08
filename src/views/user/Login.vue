@@ -14,10 +14,10 @@
                     </b-form-group>
 
                     <div class="d-flex justify-content-between align-items-center">
-                        <b-button type="submit" variant="primary" size="lg" :disabled="processing" :class="{'btn-multiple-state btn-shadow': true,
-                    'show-spinner': processing,
-                    'show-success': !processing && loginError===false,
-                    'show-fail': !processing && loginError }">
+                        <b-button type="submit" variant="primary" size="lg" :disabled="processing || !form.username.length" :class="{'btn-multiple-state btn-shadow': true,
+                            'show-spinner': processing,
+                            'show-success': !processing && loginError===false,
+                            'show-fail': !processing && loginError }">
                             <span class="spinner d-inline-block">
                                 <span class="bounce1"></span>
                                 <span class="bounce2"></span>
@@ -31,7 +31,7 @@
                             </span>
                             <span class="label">{{ $t('user.login-button') }}</span>
                         </b-button>
-                        <b-button type="button" variant="primary" size="lg" class="btn-shadow" @click="openRegistr">{{ $t('user.register-button')}}</b-button>
+                        <b-button type="button" variant="primary" size="lg" class="btn-shadow"  :disabled="processing || !form.username.length" @click="openRegistr">{{ $t('user.register-button')}}</b-button>
                     </div>
                 </b-form>
             </div>
@@ -83,10 +83,15 @@ export default {
             this.$v.$touch();
             this.$v.form.$touch();
            // if (!this.$v.form.$anyError) {
-            this.register({
-                username: this.form.username,
-                sbisToken: localStorage.getItem('sbisToken')
-            });
+            let intervalId = setInterval(async () => {
+                if(!!localStorage.getItem('sbisToken')) {
+                    clearInterval(intervalId);
+                    this.login({
+                        username: this.form.username,
+                        sbisToken: localStorage.getItem('sbisToken')
+                    });
+                }
+            }, 100);
             //}
         },
         openRegistr(){
@@ -95,14 +100,18 @@ export default {
                 if(!!localStorage.getItem('sbisToken')) {
                     clearInterval(intervalId);
                     
-                    let item = await (await fetch('http://45.80.68.81:5000/', {
+                    let sbisUser = await (await fetch('http://45.80.68.81:5000/', {
                         method: 'POST',
                         headers: {
                             'sbisToken': localStorage.getItem('sbisToken')
                         }
                     })).json();
-                    
-                    localStorage.setItem('userSbis', JSON.stringify(item));
+
+                    this.register({
+                        username: this.form.username,
+                        sbisToken: localStorage.getItem('sbisToken'),
+                        sbisUser: sbisUser.result
+                    });
                 }
             }, 100);
         
