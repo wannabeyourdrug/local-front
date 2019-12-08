@@ -30,7 +30,9 @@ const requestHandler = (request, response) => {
             });
         });
 
-        req.on('error', (e) => console.log);
+        req.on('error', (e) => {
+            console.error(`problem with request: ${e.message}`);
+        });
 
         req.write(postData);
         req.end();
