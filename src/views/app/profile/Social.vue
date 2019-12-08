@@ -5,7 +5,7 @@
         <b-row>
             <b-colxx xxs="12" class="mb-5">
                 <b-card>
-                    <img width="100%" src="/assets/img/social-header.jpg" alt="title">
+                    <img width="100%" src="/assets/img/profile-title-img.jpg" alt="title">
                 </b-card>
             </b-colxx>
             <b-colxx xxs="12" lg="5" xl="4" class="col-left">
