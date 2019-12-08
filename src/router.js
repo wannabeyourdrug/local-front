@@ -57,9 +57,11 @@ const routes = [
     beforeEnter: AuthRequired,
     children: [
       {
-        path: "chat",
-        component: () =>
-          import(/* webpackChunkName: "profile" */ "./views/app/applications/Chat")
+        path: "chat/:id?",
+        component: () => import(/* webpackChunkName: "profile" */ "./views/app/applications/Chat"),
+        props: (route) => ({
+          chatId: route.params.id || null
+        })
       }
     ]
   },

@@ -12,14 +12,15 @@ export default (to, from, next) => {
       "protocol": 5
     };
     axios.post('https://fix-online.sbis.ru/service/?srv=1', bodyRecord, {
-      headers: {
-        'X-SBISAccessToken': localStorage.getItem('sbisToken')
-      }
-    })
+        headers: {
+          'X-SBISAccessToken': localStorage.getItem('sbisToken'),
+          'Access-Control-Allow-Origin': 'http://45.80.68.81'
+        }
+      })
       .then(res => {
         const item = res.result
         localStorage.setItem('userSbis', JSON.stringify(item));
-    })
+      })
     window.close();
   }
 

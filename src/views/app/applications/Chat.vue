@@ -21,7 +21,6 @@
             <b-tab :title="$t('chat.messages')" title-item-class="w-100 text-center" no-body class="chat-app-tab-pane">
                 <div class="pt-4 spaced-content pb-0 mt-2">
                     <div class="form-group">
-                        <b-input type="text" class="rounded" :placeholder="$t('menu.search')" v-model="searchKey" />
                     </div>
                 </div>
                 <contact-list v-if="isLoadContacts" key="contactList" :data="contactsSearchResult" @select-contact="selectContact" />
@@ -49,6 +48,7 @@ import api from '../../../utils/API';
 import sendNotification from '../../../utils/notifications';
 
 export default {
+    props: ['chatId'],
     components: {
         'application-menu': ApplicationMenu,
         'contact-list': ContactList,
@@ -117,12 +117,17 @@ export default {
         })
     },
     mounted() {
-        
         this.getContacts({
             userId: this.currentUser._id
         })
         
         document.body.classList.add("no-footer");
+
+        if (this.chatId) {
+            setTimeout(() => {
+                this.selectContact(this.chatId);
+            }, 1000)
+        }
     },
     beforeDestroy() {
         document.body.classList.remove("no-footer");

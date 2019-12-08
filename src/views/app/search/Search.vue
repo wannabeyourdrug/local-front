@@ -102,43 +102,8 @@
                 </b-colxx>
             </b-row>
         </transition>
-        <b-row class="search-result">
+        <b-row class="search-result" v-if="!isShownSearch">
             <ul class="search-result-list">
-                <!-- <li class="search-user">
-                    <b-colxx sm="3">
-                        <single-lightbox v-bind:thumb="currentUser.profile.picture"
-                            v-bind:large="currentUser.profile.picture"
-                            class-name="img-thumbnail card-img search-avatar" />
-                    </b-colxx>
-                    <b-colxx sm="9">
-                        <p class="search-header">
-                            <h3 class="search-name">{user.name}</h3>
-                            <span class="search-age">Возраст: {user.age}</span>
-                        </p>
-                        <p class="search-about">{user.info}Lorem, ipsum dolor sit amet consectetur adipisicing elit. A
-                            iste veniam ratione pariatur facere sunt repellat doloremque ea. Ipsa dolor, autem
-                            distinctio quae magnam eveniet dolorem quia. Sequi, fuga ab.</p>
-
-                    </b-colxx>
-                </li>
-
-                <li class="search-user">
-                    <b-colxx sm="3">
-                        <single-lightbox v-bind:thumb="currentUser.profile.picture"
-                            v-bind:large="currentUser.profile.picture"
-                            class-name="img-thumbnail card-img search-avatar" />
-                    </b-colxx>
-                    <b-colxx sm="9">
-                        <p class="search-header">
-                            <h3 class="search-name">{user.name}</h3>
-                            <span class="search-age">Возраст: {user.age}</span>
-                        </p>
-                        <p class="search-about">{user.info}Lorem, ipsum dolor sit amet consectetur adipisicing elit. A
-                            iste veniam ratione pariatur facere sunt repellat doloremque ea. Ipsa dolor, autem
-                            distinctio quae magnam eveniet dolorem quia. Sequi, fuga ab.</p>
-
-                    </b-colxx>
-                </li> -->
                 <li v-for="(user, index) in users" :key="index">
                     <b-card no-body class="overflow-hidden search-user-inner">
                         <b-row no-gutters>
@@ -155,6 +120,8 @@
                                     <b-card-text>
                                        {{user.profile.info}}
                                     </b-card-text>
+                                    <b-button class="link-show" @click="openChat(user._id)"  squared
+                                        variant="info">Перейти в чат</b-button>
                                 </b-card-body>
                             </b-col>
                         </b-row>
@@ -237,6 +204,9 @@
                 this.searchUsers({
                     tags: searchArr,
                 });
+            },
+            openChat(userId) {
+                this.$router.push('/app/chat/' + userId);
             }
         },
         mounted() {}

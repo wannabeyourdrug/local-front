@@ -202,6 +202,7 @@ export default {
             this.saveQuestionary({
                 currentUser: this.currentUser
             });
+            this.isEditMode = true;
         },
 
         changeA(){
