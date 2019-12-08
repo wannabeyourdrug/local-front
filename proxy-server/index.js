@@ -6,6 +6,12 @@ const Iconv = require('iconv').Iconv;
 const conv = Iconv('windows-1251', 'utf8');
 
 const requestHandler = (request, response) => {
+    response.writeHead(200, {
+        'Content-Type': 'text/plain',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'referrer, x-access-token, Origin, X-Requested-With, Content-Type, Accept, x-language, Authorization, sbisToken',
+        'Access-Control-Allow-Methods': 'GET, POST, HEAD, PUT, DELETE, OPTIONS'
+    });
     if (request.method == 'POST' && request.headers.sbistoken) {
         let postData = JSON.stringify({
             "id": 1,
